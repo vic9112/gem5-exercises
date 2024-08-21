@@ -34,7 +34,7 @@ cd /workspaces/2024
 # MFMA example
 ```sh
 cd /workspaces/2024/
-cp –r materials/04-GPU-model/mfma_fp32/ gem5-resources/src/gpu/mfma_fp32
+cp -r materials/04-GPU-model/mfma_fp32/ gem5-resources/src/gpu/mfma_fp32
 cd gem5-resources/src/gpu/mfma_fp32
 docker run --rm -v /workspaces/2024:/workspaces/2024 -w ${PWD} ghcr.io/gem5/gpu-fs:latest make
 cd /workspaces/2024/
