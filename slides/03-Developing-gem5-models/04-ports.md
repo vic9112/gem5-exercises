@@ -1489,7 +1489,7 @@ InspectorGadget::InspectorGadgetStats::InspectorGadgetStats(InspectorGadget* ins
 
 Few things to note:
 
-1- Initialize our stat object by adding `stats(this)` to the initialization list in the constructor `InspectorGdaget`.
+1- **Important:** initialize our stat object by adding `stats(this)` to the initialization list in the constructor `InspectorGdaget`.
 2- `statistics::Group::Group` takes a pointer to an object of `statistics::Group` that will be its parent. Class `SimObject` inherits from `statistics::Group` so we can use a pointer to `InspectorGadget` as that input.
 3- The macro `ADD_STAT` registers and initializes our statistics that we have defined under the struct. The order of arguments are `name`, `unit`, `description`. To rid yourself of any headache, make sure the order of `ADD_STAT` macros match that of statistic declaration.
 
@@ -1512,7 +1512,7 @@ InspectorGadget::processNextReqSendEvent()
 }
 
 void
-InspectorGadget::processNextReqSendEvent()
+InspectorGadget::processNextRespSendEvent()
 {
     // ...
     stats.numResponsesFwded++;
@@ -1551,7 +1551,7 @@ InspectorGadget::processNextReqSendEvent()
 }
 
 void
-InspectorGadget::processNextReqSendEvent()
+InspectorGadget::processNextRespSendEvent()
 {
     // ...
     stats.numResponsesFwded++;
@@ -1615,12 +1615,15 @@ Again, we need to model latency. Therefore, we need to declare a new event that 
 
 ---
 
+<!-- _class: code-80-percent -->
+
 ## Adding Inspection: Header File
 
 To declare `nextInspectionEvent`, add the following lines under the `private` scope of `InspectorGadget` in `src/bootcamp/inspector-gadget/inspcetor_gadget.hh`.
 
 ```cpp
   private:
+    int output_buffer_entries;
     TimedQueue<PacketPtr> outputBuffer;
 
     EventFunctionWrapper nextInspectionEvent;
@@ -1735,7 +1738,7 @@ Now, let's declare a new class that inherits from `Packet::SenderState`. Let's d
     {
         uint64_t sequenceNumber;
         SequenceNumberTag(uint64_t sequenceNumber):
-            SenderState(), (sequenceNumber)
+            SenderState(), sequenceNumber(sequenceNumber)
         {}
     };
 ```
@@ -1879,7 +1882,7 @@ InspectorGadget::scheduleNextReqSendEvent(Tick when)
     bool have_items = !outputBuffer.empty();
 
     if (port_avail && have_items && !nextReqSendEvent.scheduled()) {
-        Tick schedule_time = align(std::max(when, inspectionBuffer.firstReadyTime()));
+        Tick schedule_time = align(std::max(when, outputBuffer.firstReadyTime()));
         schedule(nextReqSendEvent, schedule_time);
     }
 }
@@ -1925,7 +1928,7 @@ void
 InspectorGadget::processNextReqSendEvent()
 {
     panic_if(memSidePort.blocked(), "Should never try to send if blocked!");
-    panic_if(!inspectionBuffer.hasReady(curTick()), "Should never try to send if no ready packets!");
+    panic_if(!outputBuffer.hasReady(curTick()), "Should never try to send if no ready packets!");
 
     stats.numRequestsFwded++;
     PacketPtr pkt = outputBuffer.front();
@@ -2164,7 +2167,7 @@ InspectorGadget::scheduleNextInspectionEvent(Tick when)
 
     if (have_packet && have_entry && !nextInspectionEvent.scheduled()) {
         Tick first_avail_insp_unit_time = \
-            std::min_element(
+            *std::min_element(
                             inspectionUnitAvailableTimes.begin(),
                             inspectionUnitAvailableTimes.end()
                             );
@@ -2207,7 +2210,7 @@ InspectorGadget::processNextInspectionEvent()
         stats.totalInspectionBufferLatency += curTick() - inspectionBuffer.frontTime();
         PacketPtr pkt = inspectionBuffer.front();
         inspectRequest(pkt);
-        outputBuffer.push(pkt, curTick());
+        outputBuffer.push(pkt, clockEdge(totalInspectionLatency));
         inspectionBuffer.pop();
         inspectionUnitAvailableTimes[i] = clockEdge(totalInspectionLatency);
         insp_window_left--;
