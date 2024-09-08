@@ -21,7 +21,7 @@ The steps outlined in this slide deck have been tested on a computer located in 
 These computers are equipped with:
 
 - CPU: 13th Gen Intel(R) Core(TM) i5-13500
-- RAM: 16.0 GB
+- RAM: 16 GB
 - SSD: 954 GB
 
 On these computers, Docker Desktop is installed:
@@ -81,8 +81,7 @@ Expected outcome: The Bash prompt will appear as:
 
 `root@codespaces-ae14be:/workspaces/2024#`
 
-Alternative outcome:
-An image will be downloaded.
+Alternative outcome: An image will be downloaded.
 
 ```sh
 PS C:\Users\user> docker container run `
