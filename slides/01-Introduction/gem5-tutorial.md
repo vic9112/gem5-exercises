@@ -96,11 +96,13 @@ docker container run `
 ghcr.io/gem5/devcontainer:bootcamp-2024
 ```
 
-Expected outcome: The Bash prompt will appear as:
+Expected outcome: An interactive TTY will indicate its readiness to accept commands.
 
-`root@codespaces-ae14be:/workspaces/2024#`
+```sh
+root@codespaces-ae14be:/workspaces/2024#
+```
 
-Alternative outcome: An image will be downloaded.
+Alternative outcome: A newer image will be downloaded before the interactive TTY prints the username, hostname, and working directory.
 
 ```sh
 PS C:\Users\user> docker container run `
@@ -185,7 +187,7 @@ time gem5-mesi --outdir=/workspaces/m5out/ \
 /workspaces/2024/materials/01-Introduction/02-getting-started/completed/basic.py
 ```
 
-Expected outcome: The `X86DemoBoard` will be simulated using `x86-ubuntu-24.04-img` as the workload.
+Expected outcome: The `X86DemoBoard` will be simulated using `x86-ubuntu-24.04-img` as a workload.
 
 ```sh
 root@codespaces-ae14be:/workspaces/2024# time gem5-mesi --outdir=/workspaces/m5out/ \
