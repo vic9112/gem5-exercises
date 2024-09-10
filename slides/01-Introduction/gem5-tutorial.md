@@ -17,15 +17,34 @@ References:
 
 ## Environment
 
-The steps outlined in this slide deck have been tested on a computer located in Delta 219.
+The steps outlined in this slide deck have been tested on the computers located in Delta 219.
 These computers are equipped with:
 
 - CPU: 13th Gen Intel(R) Core(TM) i5-13500
 - RAM: 16 GB
 - SSD: 954 GB
 
-On these computers, Docker Desktop is installed:
+Docker Desktop is pre-installed:
+
 - https://docs.docker.com/
+
+---
+
+## Data loss on Delta 219 computers
+
+Delta 219 computers are configured to automatically revert to a previously saved system state (a restore point) without prior notice.
+
+- Your files may be permanently deleted without warning at any time (unannounced data loss).
+- You cannot predict when these reverts will occur, nor can you prevent them from happening (limited user control).
+
+**Temporary data storage**:
+During simulations, results are temporarily stored in the `C:/workspaces/` directory; however, these files are deleted during the automatic system revert process.
+
+**Protecting your data**:
+To avoid data loss, regularly back up your data using external USB drives or cloud storage services.
+
+**Reason for automatic system reverts**:
+This feature is designed to maintain a consistent simulation environment for all users.
 
 ---
 
