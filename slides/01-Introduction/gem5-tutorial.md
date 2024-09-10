@@ -126,24 +126,20 @@ root@codespaces-ae14be:/workspaces/2024#
 
 ---
 
-<!-- _class: two-col -->
-
 ## Get the source code of gem5
 
 Run this command:
 
 ```sh
 time git clone --recurse-submodules \
-https://gitlab.larc-nthu.net/ee6455/public-gem5bootcamp-2024 \
-/workspaces/2024/
+https://gitlab.larc-nthu.net/ee6455/public-gem5bootcamp-2024 /workspaces/2024/
 ```
 
 Expected outcome: A repository will be cloned, including its submodules.
 
 ```sh
 root@codespaces-ae14be:/workspaces/2024# time git clone --recurse-submodules \
-> https://gitlab.larc-nthu.net/ee6455/public-gem5bootcamp-2024 \
-> /workspaces/2024/
+> https://gitlab.larc-nthu.net/ee6455/public-gem5bootcamp-2024 /workspaces/2024/
 Cloning into '/workspaces/2024'...
 warning: redirecting to https://gitlab.larc-nthu.net/ee6455/public-gem5bootcamp-2024.git/
 remote: Enumerating objects: 10982, done.
