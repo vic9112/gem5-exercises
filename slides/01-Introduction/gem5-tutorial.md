@@ -30,7 +30,7 @@ Docker Desktop is pre-installed:
 
 ---
 
-## Data loss on Delta 219 computers
+## Back up files from C:/workspaces/ to a USB flash drive
 
 Delta 219 computers are configured to automatically revert to a previously saved system state (a restore point) without prior notice.
 
@@ -38,7 +38,7 @@ Delta 219 computers are configured to automatically revert to a previously saved
 - You cannot predict when these reverts will occur, nor can you prevent them from happening (limited user control).
 
 **Temporary data storage**:
-During simulations, results are temporarily stored in the `C:/workspaces/` directory; however, these files are deleted during the automatic system revert process.
+Your files are temporarily stored in the `C:/workspaces/` directory; however, these files are deleted during the automatic system revert process.
 
 **Protecting your data**:
 To avoid data loss, regularly back up your data using external USB drives or cloud storage services.
