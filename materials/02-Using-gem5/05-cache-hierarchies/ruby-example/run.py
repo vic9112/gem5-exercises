@@ -13,6 +13,7 @@ from workloads.array_sum_workload import (
     NaiveArraySumWorkload,
     NoResultRaceArraySumWorkload,
     NoCacheBlockRaceArraySumWorkload,
+    ChunkingArraySumWorkload,
 )
 
 from gem5.simulate.simulator import Simulator
@@ -21,6 +22,7 @@ workloads = {
     "naive": NaiveArraySumWorkload,
     "false_sharing": NoCacheBlockRaceArraySumWorkload,
     "blocking": NoCacheBlockRaceArraySumWorkload,
+    "chunking": ChunkingArraySumWorkload,
 }
 
 parser = argparse.ArgumentParser()
