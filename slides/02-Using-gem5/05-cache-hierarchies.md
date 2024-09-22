@@ -73,14 +73,6 @@ A coherence problem can arise if multiple cores have access to multiple copies o
 
 ---
 
-## What is Coherency
-
-A coherence problem can arise if multiple cores have access to multiple copies of a data (e.g., in multiple caches) and at least one access is a write
-
-![Cores and Coherency across caches with write request](05-cache-hierarchies-img/cache_line_2.svg)
-
----
-
 ## Classic Cache: Hierarchy of crossbars
 
 ![Categories of Crossbars](05-cache-hierarchies-img/crossbar.drawio.svg)
