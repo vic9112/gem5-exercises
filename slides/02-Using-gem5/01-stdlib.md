@@ -165,7 +165,7 @@ The `obtain_resource` function downloads the files needed to run the specified w
 
 ### gem5 Resources
 
-We will return to gem5 Resources later in the bootcamp, but for now, you can think of it as a way to download and manage files needed for your simulation but don't actually specify the simulated computer system hardware.
+We will return to gem5 Resources later, but for now, you can think of it as a way to download and manage files needed for your simulation but don't actually specify the simulated computer system hardware.
 Typically it is used to download and manage workloads, disk images, checkpoints needed for the simulation.
 
 Here we can search the available resources: <https://resources.gem5.org/>.
@@ -662,7 +662,7 @@ We'll see more about this in [Accelerating Simulation](08-accelerating-simulatio
 
 See [`src/python/gem5/simulate/simulator.py`](../../gem5/src/python/gem5/simulate/simulator.py) for more details.
 
-We will be covering much more about how to use the `Simulator` object in other parts of the bootcamp.
+We will be covering much more about how to use the `Simulator` object.
 
 ---
 
