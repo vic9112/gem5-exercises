@@ -30,7 +30,7 @@ Docker Desktop is pre-installed:
 
 ---
 
-## Back up files from C:/workspaces/ to a USB flash drive
+## Back up files from $HOME\workspaces\ to a flash drive
 
 Delta 219 computers are configured to automatically revert to a previously saved system state (a restore point) without prior notice.
 
@@ -38,7 +38,7 @@ Delta 219 computers are configured to automatically revert to a previously saved
 - You cannot predict when these reverts will occur, nor can you prevent them from happening (limited user control).
 
 **Temporary data storage**:
-Your files are temporarily stored in the `C:/workspaces/` directory; however, these files are deleted during the automatic system revert process.
+Your files are temporarily stored in the `$HOME\workspaces\` directory; however, these files are deleted during the automatic system revert process.
 
 **Protecting your data**:
 To avoid data loss, regularly back up your data using external USB drives or cloud storage services.
@@ -90,7 +90,7 @@ For PowerShell users, run this command:
 ```sh
 docker container run `
 --rm --interactive --tty `
---volume C:/workspaces/:/workspaces/ `
+--volume $HOME\workspaces\:/workspaces/ `
 --workdir /workspaces/2024/ `
 --hostname codespaces-ae14be `
 ghcr.io/gem5/devcontainer:bootcamp-2024
@@ -107,7 +107,7 @@ Alternative outcome: A newer image will be downloaded before the interactive TTY
 ```sh
 PS C:\Users\user> docker container run `
 >> --rm --interactive --tty `
->> --volume C:/workspaces/:/workspaces/ `
+>> --volume $HOME\workspaces\:/workspaces/ `
 >> --workdir /workspaces/2024/ `
 >> --hostname codespaces-ae14be `
 >> ghcr.io/gem5/devcontainer:bootcamp-2024
@@ -233,7 +233,7 @@ root@codespaces-ae14be:/workspaces/2024#
 
 ## Retrieve the simulation statistics on Windows
 
-For Windows users, open `C:/workspaces/m5out/stats.txt` using a text editor.
+For Windows users, open `$HOME\workspaces\m5out\stats.txt` using a text editor.
 
 Expected outcome: The first few lines will resemble this:
 
@@ -261,7 +261,7 @@ board.cache_hierarchy.ruby_system.delayHistogram::stdev     2.687016            
 
 ## Retrieve the simulation configuration on Windows
 
-For Windows users, open `C:/workspaces/m5out/config.ini` using a text editor.
+For Windows users, open `$HOME\workspaces\m5out\config.ini` using a text editor.
 
 Expected outcome: The first few lines will resemble this:
 
