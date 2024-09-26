@@ -30,6 +30,20 @@ Docker Desktop is pre-installed:
 
 ---
 
+## Installtion on Your Own PC
+
+You may also install Docker on your own PC. Please prepare at least 10G of disk space.
+
+For Windows/Mac, please download and intall Docker Desktop:
+
+- https://docs.docker.com/
+
+For Windows, use Powershell as command line interface as in the folowing slides.
+
+For Mac, please use Terminal App as command line shell to start the Docker image.
+
+---
+
 ## Back up files from $HOME\workspaces\ to a flash drive
 
 Delta 219 computers are configured to automatically revert to a previously saved system state (a restore point) without prior notice.
