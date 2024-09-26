@@ -190,6 +190,27 @@ root@codespaces-ae14be:/workspaces/2024#
 
 ---
 
+## Run a container on macOS
+
+For macOS users, run this command:
+
+```sh
+docker container run \
+--rm --interactive --tty \
+--volume ~/workspaces/:/workspaces/ \
+--workdir /workspaces/2024/ \
+--hostname codespaces-ae14be \
+ghcr.io/gem5/devcontainer:bootcamp-2024
+```
+
+Expected outcome: An interactive TTY will indicate its readiness to accept commands.
+
+```sh
+root@codespaces-ae14be:/workspaces/2024#
+```
+
+---
+
 ## Get the source code of gem5
 
 Run this command:
