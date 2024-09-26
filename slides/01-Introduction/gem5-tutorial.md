@@ -28,27 +28,17 @@ Docker Desktop is pre-installed.
 
 ---
 
-## Installtion on Your Own PC
+## Installation on Your Own Computer
 
-You may also install Docker on your own PC. Please prepare at least 10G of disk space.
+You may also install Docker on your own computer. Please ensure you have at least **10 GB** of disk space available.
 
-For Windows/Mac, please download and intall Docker Desktop:
-
-- https://docs.docker.com/
-
-For Windows, use Powershell as command line interface as in the folowing slides.
-
-For Mac, please use Terminal App as command line shell to start the Docker image.
+Instructions for **Windows** and **macOS** are provided.
 
 ---
 
 ## Install Docker Desktop on Windows
 
-For users of Delta 219 computers:
-
-- Docker Desktop is already installed on these computers. Reinstallation is unnecessary.
-
-For other Windows users:
+For Windows users:
 
 1. Download [the installer](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe).
 
@@ -86,7 +76,7 @@ Delta 219 computers are configured to automatically revert to a previously saved
 - You cannot predict when these reverts will occur, nor can you prevent them from happening (limited user control).
 
 **Temporary data storage**:
-Your files are temporarily stored in the `$HOME\workspaces\` directory; however, these files are deleted during the automatic system revert process.
+Your files are temporarily stored in the `$HOME\workspaces\` directory; these files are deleted during the automatic system revert process.
 
 **Protecting your data**:
 To avoid data loss, regularly back up your data using external USB drives or cloud storage services.
