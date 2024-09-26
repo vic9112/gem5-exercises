@@ -129,6 +129,20 @@ PS C:\Users\user>
 
 ---
 
+## Open a terminal emulator on macOS
+
+For macOS users:
+
+1. Click the **Launchpad** icon in the Dock.
+
+1. Type `Terminal` in the search field.
+
+1. Click **Terminal**.
+
+Expected outcome: A terminal emulator will open.
+
+---
+
 <!-- _class: two-col -->
 
 ## Run a container in PowerShell
