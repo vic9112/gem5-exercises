@@ -24,9 +24,7 @@ These computers are equipped with:
 - RAM: 16 GB
 - SSD: 954 GB
 
-Docker Desktop is pre-installed:
-
-- https://docs.docker.com/
+Docker Desktop is pre-installed.
 
 ---
 
@@ -41,6 +39,42 @@ For Windows/Mac, please download and intall Docker Desktop:
 For Windows, use Powershell as command line interface as in the folowing slides.
 
 For Mac, please use Terminal App as command line shell to start the Docker image.
+
+---
+
+## Install Docker Desktop on Windows
+
+For users of Delta 219 computers:
+
+- Docker Desktop is already installed on these computers. Reinstallation is unnecessary.
+
+For other Windows users:
+
+1. Download [the installer](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe).
+
+1. Double-click `Docker Desktop Installer.exe` to run the installer.
+
+1. Follow the instructions in the installation wizard to authorize the installer and proceed with the installation.
+
+1. Once the installation is complete, select **Close** to finish the process.
+
+---
+
+## Install Docker Desktop on macOS
+
+For macOS users:
+
+1. Download [the installer](https://desktop.docker.com/mac/main/arm64/Docker.dmg).
+
+1. Double-click `Docker.dmg` to open the installer, then drag the Docker icon to the **Applications** folder.
+
+1. Double-click `Docker.app` in the **Applications** folder to start Docker.
+
+1. The Docker menu will display the Docker Subscription Service Agreement. Select **Accept** to continue.
+
+1. In the installation window, select **Use recommended settings (Requires password)**.
+
+1. Select **Finish**.
 
 ---
 
