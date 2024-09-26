@@ -17,7 +17,7 @@ References:
 
 ## Environment
 
-The steps outlined in this slide deck have been tested on the computers located in Delta 219.
+The steps outlined in this tutorial have been tested on the computers located in Delta 219.
 These computers are equipped with:
 
 - CPU: 13th Gen Intel(R) Core(TM) i5-13500
@@ -68,7 +68,7 @@ For macOS users:
 
 ---
 
-## Back up files from $HOME\workspaces\ to a flash drive
+## Back up files from `$HOME\workspaces\` to a flash drive
 
 Delta 219 computers are configured to automatically revert to a previously saved system state (a restore point) without prior notice.
 
@@ -76,7 +76,7 @@ Delta 219 computers are configured to automatically revert to a previously saved
 - You cannot predict when these reverts will occur, nor can you prevent them from happening (limited user control).
 
 **Temporary data storage**:
-Your files are temporarily stored in the `$HOME\workspaces\` directory; these files are deleted during the automatic system revert process.
+Your files are temporarily stored in the `$HOME\workspaces\` directory. These files are deleted during the automatic system revert process.
 
 **Protecting your data**:
 To avoid data loss, regularly back up your data using external USB drives or cloud storage services.
@@ -94,7 +94,7 @@ For Windows users:
 
 1. Select **Docker Desktop** (or type `Docker Desktop` and press `Enter`).
 
-1. Expected outcome: Docker Desktop will open.
+Expected outcome: Docker Desktop will open.
 
 ---
 
@@ -106,7 +106,7 @@ For Windows users:
 
 1. Select **Windows PowerShell** (or press `I`).
 
-1. Expected outcome: A terminal emulator will open.
+Expected outcome: A terminal emulator will open.
 
 ```sh
 Windows PowerShell
@@ -154,7 +154,7 @@ Expected outcome: An interactive TTY will indicate its readiness to accept comma
 root@codespaces-ae14be:/workspaces/2024#
 ```
 
-Alternative outcome: A newer image will be downloaded before the interactive TTY prints the username, hostname, and working directory.
+Alternative outcome: A newer image will be downloaded before the interactive TTY displays the username, hostname, and working directory.
 
 ```sh
 PS C:\Users\user> docker container run `
