@@ -183,3 +183,44 @@ In this case, you cannot have a description of the image, unfortunately.
 ```bash
 find . -name "*.md" -exec pandoc {} -o {}.html --self-contained -c ../themes/print-style.css \;
 ```
+
+
+# EE6455 TA
+## How to Generate Slides with Marp CLI
+
+This guide shows how to install Google Chrome and use [Marp CLI](https://github.com/marp-team/marp-cli) to generate slides from Markdown.
+
+---
+
+## 1. Install Google Chrome
+
+Marp CLI requires a Chrome/Chromium binary to export PDF or PPTX.  
+On Ubuntu/Debian, install Google Chrome via the `.deb` package:
+
+```bash
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install -y ./google-chrome-stable_current_amd64.deb
+```
+
+- Verify installation:
+  ~~~
+  google-chrome --version
+  ~~~
+
+## 2. Install Marp CLI (if not using Docker)
+~~~
+npm install -g @marp-team/marp-cli
+~~~
+
+- Check installation:
+  ~~~
+  marp --version
+  ~~~
+
+## 3. Generate Slides
+
+Convert Markdown (.md) into PDF:
+~~~
+marp 02-Using-gem5/07-full-system.md
+~~~
+
