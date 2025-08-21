@@ -71,7 +71,7 @@ If you want to create a new component you are encouraged to *extend* (i.e., subc
 
 <!-- _class: code-80-percent -->
 
-In `materials/02-Using-gem5/01-stdlib/01-components.py` you'll see some imports already included for you.
+In [`materials/02-Using-gem5/01-stdlib/01-components.py`](../../materials/02-Using-gem5/01-stdlib/01-components.py) you'll see some imports already included for you.
 
 ```python
 from gem5.components.boards.simple_board import SimpleBoard
@@ -241,7 +241,7 @@ gem5/src/python/gem5/prebuilt
 
 ###
 
-- gem5 stdlib in `gem5/src/python/gem5`
+- gem5 stdlib in [`gem5/src/python/gem5`](../../gem5/src/python/gem5/)
 - Two types
   - Prebuilt: full systems with set parameters
   - Components: Components to build systems
@@ -451,7 +451,7 @@ However, as SE mode doesn't simulate the OS, you risk missing important events t
 
 ## How to specify FS mode using the standard library
 
-Go to `materials/02-Using-gem5/01-stdlib/01-02-fs-mode.py` and and work on this example.
+Go to [`materials/02-Using-gem5/01-stdlib/01-02-fs-mode.py`](../../materials/02-Using-gem5/01-stdlib/01-02-fs-mode.py) and and work on this example.
 
 ---
 
@@ -637,7 +637,7 @@ To place our idea of gem5:
 - The standard library allows users to specify a board and specify the properties of the board by specify the components that are connected to it.
 - The Simulator takes a board and launches the simulation and gives an API which allows for control of the simulation: specifying the simulation stopping and restarting condition, replacing components "on the fly", defining when the simulation should stop and start, etc.
 
-See `gem5/src/python/gem5/simulate/simulator.py` for the Simulator source.
+See [`gem5/src/python/gem5/simulate/simulator.py`](../../gem5/src/python/gem5/simulate/simulator.py) for the Simulator source.
 
 We'll see more about this in `Accelerating Simulation(08-accelerating-simulation.pdf)`.
 
@@ -660,7 +660,7 @@ We'll see more about this in `Accelerating Simulation(08-accelerating-simulation
 - **`schedule_max_insts(inst_number)`**: Set the number of instructions to run before stopping. Generates a `MAX_INSTS` exit event that can be handled. Note that if running multiple cores, this happens if *any* core reaches this number of instructions.
 - **`get_stats()``**: Get the statistics from the simulation. Returns a dictionary of statistics.
 
-See `gem5/src/python/gem5/simulate/simulator.py` for more details.
+See [`gem5/src/python/gem5/simulate/simulator.py`](../../gem5/src/python/gem5/simulate/simulator.py) for more details.
 
 We will be covering much more about how to use the `Simulator` object.
 
@@ -695,7 +695,7 @@ We will specialize/extend the "BaseCPUProcessor" to create an ARM processor with
 
 ## Let's create a processor with out-of-order cores
 
-Use `materials/02-Using-gem5/01-stdlib/02-processor.py` as a starting point.
+Use [`materials/02-Using-gem5/01-stdlib/02-processor.py`](../../materials/02-Using-gem5/01-stdlib/02-processor.py) as a starting point.
 
 Mostly the same as the last example, but now we have the following code instead of using the `SimpleProcessor`:
 
@@ -724,8 +724,8 @@ class MyOutOfOrderCore(BaseCPUCore):
         super().__init__(ArmO3CPU(), ISA.Arm)
 ```
 
-See `gem5/src/python/gem5/components/processors/base_cpu_core.py`
-And `gem5/src/cpu/o3/BaseO3CPU.py`
+See [`gem5/src/python/gem5/components/processors/base_cpu_core.py`](../../gem5/src/python/gem5/components/processors/base_cpu_core.py)
+And [`gem5/src/cpu/o3/BaseO3CPU.py`](../../gem5/src/cpu/o3/BaseO3CPU.py)
 
 ```python
   self.core.fetchWidth = width
