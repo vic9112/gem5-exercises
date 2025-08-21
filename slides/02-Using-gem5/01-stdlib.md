@@ -71,7 +71,7 @@ If you want to create a new component you are encouraged to *extend* (i.e., subc
 
 <!-- _class: code-80-percent -->
 
-In [`materials/02-Using-gem5/01-stdlib/01-components.py`](../../materials/02-Using-gem5/01-stdlib/01-components.py) you'll see some imports already included for you.
+In `materials/02-Using-gem5/01-stdlib/01-components.py` you'll see some imports already included for you.
 
 ```python
 from gem5.components.boards.simple_board import SimpleBoard
@@ -103,7 +103,7 @@ cache_hierarchy = MESITwoLevelCacheHierarchy(
 ```
 
 `MESITwoLevelCacheHierarchy` is a component that represents a two-level MESI cache hierarchy.
-This uses the [Ruby memory model](05-cache-hierarchies.md).
+This uses the `Ruby memory model(05-cache-hierarchies.pdf)`.
 
 The component for the cache hierarchy is parameterized with the sizes and associativities of the L1 and L2 caches.
 
@@ -120,7 +120,7 @@ This component represents a single-channel DDR3 memory system.
 There is a `size` parameter that can be used to specify the size of the memory system of the simulated system. You can reduce the size to save simulation time, or use the default for the memory type (e.g., one channel of DDR3 defaults to 8 GiB).
 
 There are also multi channel memories available.
-We'll cover this more in [Memory Systems](06-memory.md).
+We'll cover this more in `Memory Systems(06-memory.pdf)`.
 
 ---
 
@@ -241,7 +241,7 @@ gem5/src/python/gem5/prebuilt
 
 ###
 
-- gem5 stdlib in [`src/python/gem5`](../../gem5/src/python/gem5/)
+- gem5 stdlib in `gem5/src/python/gem5`
 - Two types
   - Prebuilt: full systems with set parameters
   - Components: Components to build systems
@@ -378,7 +378,7 @@ gem5/src/python/gem5/components
 
 ### gem5 has three (or four or five) different processor models
 
-More details coming in the [CPU Models](04-cpu-models.md) section.
+More details coming in the `CPU Models(04-cpu-models.pdf)` section.
 
 - `CPUTypes.TIMING`: A simple in-order CPU model
   - This is a "single cycle" CPU. Each instruction takes the time to fetch and executes immediately.
@@ -441,7 +441,7 @@ In addition, we can access host resources such as files of libraries to dynamica
 
 ## SE mode: If in doubt, use FS mode
 
-FS mode does everything SE mode does (and more!) but can take longer to get to the region of interest. You have to wait for the OS to boot each time (unless you [accelerate the simulation](08-accelerating-simulation.md)).
+FS mode does everything SE mode does (and more!) but can take longer to get to the region of interest. You have to wait for the OS to boot each time (unless you `accelerate the simulation(08-accelerating-simulation.pdf)`).
 
 However, as SE mode doesn't simulate the OS, you risk missing important events triggered via syscalls, I/O, or the operating system, which may mean your simulated system doesn't properly reflect the real system.
 
@@ -451,7 +451,7 @@ However, as SE mode doesn't simulate the OS, you risk missing important events t
 
 ## How to specify FS mode using the standard library
 
-Go to [`materials/02-Using-gem5/01-stdlib/01-02-fs-mode.py`](../../materials/02-Using-gem5/01-stdlib/01-02-fs-mode.py) and and work on this example.
+Go to `materials/02-Using-gem5/01-stdlib/01-02-fs-mode.py` and and work on this example.
 
 ---
 
@@ -637,9 +637,9 @@ To place our idea of gem5:
 - The standard library allows users to specify a board and specify the properties of the board by specify the components that are connected to it.
 - The Simulator takes a board and launches the simulation and gives an API which allows for control of the simulation: specifying the simulation stopping and restarting condition, replacing components "on the fly", defining when the simulation should stop and start, etc.
 
-See [`src/python/gem5/simulate/simulator.py`](../../gem5/src/python/gem5/simulate/simulator.py) for the Simulator source.
+See `gem5/src/python/gem5/simulate/simulator.py` for the Simulator source.
 
-We'll see more about this in [Accelerating Simulation](08-accelerating-simulation.md).
+We'll see more about this in `Accelerating Simulation(08-accelerating-simulation.pdf)`.
 
 ---
 
@@ -660,7 +660,7 @@ We'll see more about this in [Accelerating Simulation](08-accelerating-simulatio
 - **`schedule_max_insts(inst_number)`**: Set the number of instructions to run before stopping. Generates a `MAX_INSTS` exit event that can be handled. Note that if running multiple cores, this happens if *any* core reaches this number of instructions.
 - **`get_stats()``**: Get the statistics from the simulation. Returns a dictionary of statistics.
 
-See [`src/python/gem5/simulate/simulator.py`](../../gem5/src/python/gem5/simulate/simulator.py) for more details.
+See `gem5/src/python/gem5/simulate/simulator.py` for more details.
 
 We will be covering much more about how to use the `Simulator` object.
 
@@ -695,7 +695,7 @@ We will specialize/extend the "BaseCPUProcessor" to create an ARM processor with
 
 ## Let's create a processor with out-of-order cores
 
-Use [`materials/02-Using-gem5/01-stdlib/02-processor.py`](../../materials/02-Using-gem5/01-stdlib/02-processor.py) as a starting point.
+Use `materials/02-Using-gem5/01-stdlib/02-processor.py` as a starting point.
 
 Mostly the same as the last example, but now we have the following code instead of using the `SimpleProcessor`:
 
@@ -724,8 +724,8 @@ class MyOutOfOrderCore(BaseCPUCore):
         super().__init__(ArmO3CPU(), ISA.Arm)
 ```
 
-See [`...gem5/components/processors/base_cpu_core.py`](../../gem5/src/python/gem5/components/processors/base_cpu_core.py)
-And [`src/cpu/o3/BaseO3CPU.py`](../../gem5/src/cpu/o3/BaseO3CPU.py)
+See `gem5/src/python/gem5/components/processors/base_cpu_core.py`
+And `gem5/src/cpu/o3/BaseO3CPU.py`
 
 ```python
   self.core.fetchWidth = width
