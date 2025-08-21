@@ -72,7 +72,7 @@ args = parser.parse_args()
 
 
 binary_path = Path(
-    "/workspaces/2024/materials/02-Using-gem5/03-running-in-gem5/"
+    "/workspaces/2025/materials/02-Using-gem5/03-running-in-gem5/"
     f"04-cross-compile-workload/04-cross-compile-this-{args.workload_type}")
 
 

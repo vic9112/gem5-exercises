@@ -7,7 +7,7 @@ Add a memory controller and memory interface to the system.
 Connect the memory controller to the memory bus.
 
 to run this script, use the following command:
-$ gem5/build/NULL/gem5.opt /workspaces/2024/materials/02-Using-gem5/\
+$ gem5/build/NULL/gem5.opt /workspaces/2025/materials/02-Using-gem5/\
 06-memory/blank_memory.py
 
 

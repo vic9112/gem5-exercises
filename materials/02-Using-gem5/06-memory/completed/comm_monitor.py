@@ -6,7 +6,7 @@ A CommMonitor has been inserted between the processor and the memory
 controller.
 
 This script can be run with the following command:
-$ gem5/build/NULL/gem5.opt /workspaces/2024/materials/02-Using-gem5/\
+$ gem5/build/NULL/gem5.opt /workspaces/2025/materials/02-Using-gem5/\
 06-memory/completed/comm_monitor.py
 """
 # import the m5 (gem5) library created when gem5 is built

@@ -7,7 +7,7 @@ However this can be replaced wioth any other memory device in the standard
 library.
 
 This script can be run with the following command:
-$ gem5/build/NULL/gem5.opt /workspaces/2024/materials/02-Using-gem5/\
+$ gem5/build/NULL/gem5.opt /workspaces/2025/materials/02-Using-gem5/\
 06-memory/completed/lpddr2_test.py
 """
 

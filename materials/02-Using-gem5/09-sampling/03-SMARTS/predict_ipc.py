@@ -1,7 +1,7 @@
 from pathlib import Path
 import math
 
-stats_file = Path("/workspaces/2024/materials/02-Using-gem5/09-sampling/03-SMARTS/m5out/stats.txt")
+stats_file = Path("/workspaces/2025/materials/02-Using-gem5/09-sampling/03-SMARTS/m5out/stats.txt")
 
 with stats_file.open("r") as f:
     num_samples = 0

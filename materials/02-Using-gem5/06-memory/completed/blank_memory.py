@@ -5,7 +5,7 @@ This script creates a memory controller and memory interface and
 connects them to the memory bus.
 
 to run this script, use the following command:
-$ gem5/build/NULL/gem5.opt /workspaces/2024/materials/02-Using-gem5/\
+$ gem5/build/NULL/gem5.opt /workspaces/2025/materials/02-Using-gem5/\
 06-memory/completed/blank_memory.py
 
 

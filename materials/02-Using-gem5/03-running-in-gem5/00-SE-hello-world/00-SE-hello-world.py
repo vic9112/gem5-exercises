@@ -48,7 +48,7 @@ gem5 -re --debug-flags=SyscallAll 00-SE-hello-world.py
 '''
 
 
-binary_path = Path("/workspaces/2024/materials/02-Using-gem5/03-running-in-gem5/00-SE-hello-world/00-SE-hello-world")
+binary_path = Path("/workspaces/2025/materials/02-Using-gem5/03-running-in-gem5/00-SE-hello-world/00-SE-hello-world")
 
 
 cache_hierarchy = PrivateL1CacheHierarchy(

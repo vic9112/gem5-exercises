@@ -177,7 +177,7 @@ In order to build the m5ops library,
 ### Let's build the m5ops library for x86 and arm64
 
 ```bash
-cd /workspaces/2024/gem5/util/m5
+cd /workspaces/2025/gem5/util/m5
 scons build/x86/out/m5
 scons arm64.CROSS_COMPILE=aarch64-linux-gnu- build/arm64/out/m5
 ```
