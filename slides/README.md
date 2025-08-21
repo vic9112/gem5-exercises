@@ -216,8 +216,12 @@ npm install -g @marp-team/marp-cli
   ~~~
   marp --version
   ~~~
+## 3. Install Chinese font
+~~~
+sudo apt-get install fonts-noto-cjk
+~~~
 
-## 3. Generate Slides
+## 4. Generate Slides
 
 Convert Markdown (.md) into PDF:
 ~~~
