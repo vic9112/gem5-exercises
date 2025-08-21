@@ -110,11 +110,16 @@ simulator.run()
 Before booting this workload, let's build the `m5term` application so we can connect to the running system.
 
 ```bash
-cd /workspaces/2024/gem5/util/term
+cd /workspaces/2025/gem5/util/term
 make
 ```
 
 Now you have a binary `m5term`.
+
+To make it easier to run from anywhere, add the path to your environment:
+```
+export PATH=$PATH:/workspaces/2025/gem5/util/term
+```
 
 ---
 
@@ -128,7 +133,7 @@ Run gem5 with:
 gem5 x86-fs-kvm-run.py
 ```
 
-In another terminal window, run the following command to connect to the disk image boot's terminal:
+In another terminal window inside the same container, run the following command to connect to the disk image boot's terminal:
 
 ```bash
 m5term 3456
@@ -140,11 +145,42 @@ You will see this printed in the gem5 output.
 If you run multiple gem5 instances, they will have sequential port numbers.
 If you are running in a non-interactive environment, there will be no ports to connect to.
 
+
+---
+
+**Expected output:**
+
+When the disk image successfully boots and you connect using `m5term`, you should see the Ubuntu login prompt over the serial console:
+
+```
+Welcome to Ubuntu 24.04 LTS!
+
+(skipped)
+
+Ubuntu 24.04 LTS gem5 ttyS0
+
+gem5 login: gem5 (automatic login)
+
+In after_boot.sh...
+Interactive mode: false
+Starting gem5 init... trying to read run script file via readf....
+```
+This output is what you will see inside the `m5term` terminal window, confirming that the guest operating system inside gem5 has finished booting and that you are connected to its console.
+
+
 ---
 
 <!-- _class: start -->
 
 ## Creating your own disk images
+
+---
+
+
+**Warning:**
+Before starting, make sure you have the **QEMU GUI backend** installed.  
+Packer relies on QEMU to boot and install the OS, and without a proper GUI backend the installation may fail.
+
 
 ---
 
@@ -174,6 +210,13 @@ We also need the user-data file that will tell Ubuntu autoinstall how to install
 
 - The user-data file on gem5-resources specifies all default options with a minimal server installation.
 
+You can download the ISO from the Ubuntu old releases archive at:
+```
+wget https://old-releases.ubuntu.com/releases/22.04/ubuntu-22.04.2-live-server-amd64.iso
+```
+
+This archive contains older Ubuntu release images, including the 22.04.2 live server ISO required for the installation.
+
 ---
 
 ## How to get our own user-data file
@@ -190,7 +233,7 @@ You can install Ubuntu on your own VM and get the user-data file.
 
 We can also use QEMU to install Ubuntu and get the aforementioned file.
 
-- First, we need to create an empty disk image in QEMU with the command: `qemu-img create -f raw ubuntu-22.04.2.raw 5G`
+- First, we need to create an empty disk image in QEMU with the command: `qemu-img create -f raw ubuntu-22.04.2.raw 10G`
 - Then we use QEMU to boot the diskimage:
 
 ```bash
@@ -202,6 +245,48 @@ qemu-system-x86_64 -m 2G \
 ```
 
 After installing Ubuntu, we can use ssh to get the user-data file.
+
+---
+
+
+**Special note for Windows + Docker users**
+
+If you are running inside a Windows Docker container without X11 forwarding (no GUI support), you cannot use the default graphical installer. Instead, use curses (text mode):
+
+```sh
+qemu-system-x86_64 -m 2G \
+      -cdrom ubuntu-22.04.2-live-server-amd64.iso \
+      -boot d -drive file=ubuntu-22.04.2.raw,format=raw \
+      -enable-kvm -cpu host -smp 2 \
+      -net nic -net user,hostfwd=tcp::2222-:22 \
+      -display curses
+```
+
+1. When the GRUB menu appears, press `e` to edit the boot entry.
+
+2. Find the line starting with `linux /casper/vmlinuz ...` and change it to:
+    ```
+    linux /casper/vmlinuz console=ttyS0,115200n8 nomodeset ---
+    ```
+
+---
+3. Press F10 or Ctrl+X to boot.
+
+4. The installer will now run entirely in text mode, and you can proceed with the installation as usual.
+
+
+**Booting from the installed raw disk image**
+
+After the installation is complete, you can boot directly from the installed .raw disk image (no need to attach the ISO anymore):
+
+```
+qemu-system-x86_64 -m 2G \
+  -drive file=ubuntu-22.04.2.raw,format=raw \
+  -enable-kvm -cpu host -smp 2 \
+  -net nic -net user,hostfwd=tcp::2222-:22
+```
+
+You can then log in using the username and password you set during installation.
 
 ---
 
@@ -248,12 +333,12 @@ Let's go over the Packer file.
 
 ## Let's use the base Ubuntu image to create a disk image with the GAPBS benchmarks
 
-Update the [x86-ubuntu.pkr.hcl](../../materials/02-Using-gem5/07-full-system/x86-ubuntu-gapbs/x86-ubuntu.pkr.hcl) file.
+Update the [`materials/02-Using-gem5/07-full-system/x86-ubuntu-gapbs/x86-ubuntu.pkr.hcl`](../../materials/02-Using-gem5/07-full-system/x86-ubuntu-gapbs/x86-ubuntu.pkr.hcl) file.
 
 The general structure of the Packer file would be the same but with a few key changes:
 
 - We will now add an argument in the `source "qemu" "initialize"` block.
-  - `diskimage = true` : This will let Packer know that we are using a base disk image and not an iso from which we will install Ubuntu.
+  - `disk_image = true` : This will let Packer know that we are using a base disk image and not an iso from which we will install Ubuntu.
 - Remove the `http_directory   = "http"` directory as we no longer need to use autoinstall.
 - Change the `iso_checksum` and `iso_urls` to that of our base image.
 
@@ -278,15 +363,15 @@ sha256sum ./x86-ubuntu-24-04.gz
 - **Update the file and shell provisioners:** Let's remove the file provisioners as we dont need to transfer the files again.
 - **Boot command:** As we are not installing Ubuntu, we can write the commands to login along with any other commands we need (e.g. setting up network or ssh). Let's update the boot command to login and enable network:
 
-```hcl
-"<wait30>",
-"gem5<enter><wait>",
-"12345<enter><wait>",
-"sudo mv /etc/netplan/50-cloud-init.yaml.bak /etc/netplan/50-cloud-init.yaml<enter><wait>",
-"12345<enter><wait>",
-"sudo netplan apply<enter><wait>",
-"<wait>"
-```
+    ```hcl
+    "<wait30>",
+    "gem5<enter><wait>",
+    "12345<enter><wait>",
+    "sudo mv /etc/netplan/50-cloud-init.yaml.bak /etc/netplan/50-cloud-init.yaml<enter><wait>",
+    "12345<enter><wait>",
+    "sudo netplan apply<enter><wait>",
+    "<wait>"
+    ```
 
 ---
 
@@ -305,8 +390,8 @@ make
 Let's run the Packer script and use this disk image in gem5!
 
 ```bash
-cd /workspaces/2024/materials/02-Using-gem5/07-full-system
-x86-ubuntu-gapbs/build.sh
+cd /workspaces/2025/materials/02-Using-gem5/07-full-system/x86-ubuntu-gapbs
+./build.sh
 ```
 ---
 

@@ -150,7 +150,8 @@ For PowerShell users, run this command:
 
 ```sh
 docker run -it `
---name ee6455-gem5 `
+--device /dev/kvm `
+--name ee6455-gem5-2 `
 --volume $HOME\workspaces\:/workspaces/ `
 --workdir /workspaces/2025/ `
 --hostname EE6455-gem5 `
