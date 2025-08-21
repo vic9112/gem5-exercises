@@ -42,7 +42,7 @@ However, if the experiment needs to model the OS interaction, or needs to model 
 ### 00-SE-hello-world
 
 Under `materials/02-Using-gem5/03-running-in-gem5/00-SE-hello-world`, there is a small example of an SE simulation.
-[00-SE-hello-world.py](../../materials/02-Using-gem5/03-running-in-gem5/00-SE-hello-world/00-SE-hello-world.py) will run the [00-SE-hello-world](../../materials/02-Using-gem5/03-running-in-gem5/00-SE-hello-world/00-SE-hello-world.c) binary with a simple X86 configuration.
+[`00-SE-hello-world.py`](../../materials/02-Using-gem5/03-running-in-gem5/00-SE-hello-world/00-SE-hello-world.py) will run the [`00-SE-hello-world`](../../materials/02-Using-gem5/03-running-in-gem5/00-SE-hello-world/00-SE-hello-world.c) binary with a simple X86 configuration.
 This binary prints the string `Hello, World!`.
 If we use the debug flag `SyscallAll` with it, we will able to see what syscalls are simulated.
 We can do it with the following command:
@@ -58,7 +58,7 @@ gem5 -re --debug-flags=SyscallAll 00-SE-hello-world.py
 
 ## 00-SE-hello-world
 
-Then in [simout.txt](../../materials/02-Using-gem5/03-running-in-gem5/00-SE-hello-world/m5out/simout.txt), we should see:
+Then in [`simout.txt`](../../materials/02-Using-gem5/03-running-in-gem5/00-SE-hello-world/m5out/simout.txt), we should see:
 
 ```bash
 280945000: board.processor.cores.core: T0 : syscall Calling write(1, 21152, 14)...
@@ -105,8 +105,8 @@ As the timestamp suggests, **SE simulation DOES NOT record the time for the sysc
   - dumpstats: Dumps the stats
   - checkpoint: Only exits
   - switchcpu: Only exits
-- See [gem5/src/sim/pseudo_inst.cc](https://github.com/gem5/gem5/blob/stable/src/sim/pseudo_inst.cc) for details.
-- The gem5 standard library might have default behaviors for some of the m5ops. See [src/python/gem5/simulate/simulator.py](https://github.com/gem5/gem5/blob/stable/src/python/gem5/simulate/simulator.py#L301) for the default behaviors.
+- See [`gem5/src/sim/pseudo_inst.cc`](https://github.com/gem5/gem5/blob/stable/src/sim/pseudo_inst.cc) for details.
+- The gem5 standard library might have default behaviors for some of the m5ops. See [`src/python/gem5/simulate/simulator.py`](https://github.com/gem5/gem5/blob/stable/src/python/gem5/simulate/simulator.py#L301) for the default behaviors.
 
 ---
 
@@ -138,7 +138,7 @@ In this session, we will focus on learning how to use the m5ops to annotate work
 
 ## How to use m5ops
 
-m5ops provides a library of functions for different functionalities. All functions can be found in [gem5/include/gem5/m5ops.h](https://github.com/gem5/gem5/blob/stable/include/gem5/m5ops.h).
+m5ops provides a library of functions for different functionalities. All functions can be found in [`gem5/include/gem5/m5ops.h`](https://github.com/gem5/gem5/blob/stable/include/gem5/m5ops.h).
 The commonly used functions (they are matched with the commonly used functionalities above):
 
 - `void m5_exit(uint64_t ns_delay)`
@@ -208,7 +208,7 @@ After building the m5ops library, we can link them to our workload by:​
 
 ### Let's annotate the workload with `m5_work_begin` and `m5_work_end`
 
-In `materials/02-Using-gem5/03-running-in-gem5/02-annotate-this`, there is a workload source file called [02-annotate-this.cpp](../../materials/02-Using-gem5/03-running-in-gem5/02-annotate-this/02-annotate-this.cpp) and a [Makefile](../../materials/02-Using-gem5/03-running-in-gem5/02-annotate-this/Makefile).
+In `materials/02-Using-gem5/03-running-in-gem5/02-annotate-this`, there is a workload source file called [`02-annotate-this.cpp`](../../materials/02-Using-gem5/03-running-in-gem5/02-annotate-this/02-annotate-this.cpp) and a [Makefile](../../materials/02-Using-gem5/03-running-in-gem5/02-annotate-this/Makefile).
 
 The workload mainly does two things:
 
@@ -310,7 +310,7 @@ This is also the reason why we will need to use the address version of m5ops if 
 2. Have people to add a workbegin handler and a workend handler that uses debug.flags["ExecAll] to enable and disable debug flag to see the execution trace of the syscall.
 3. Point out that SE mode do not time the syscall and it can read/write the host directory -->
 
-First, let's see what the default behavior is. Go to the folder `materials/02-Using-gem5/03-running-in-gem5/03-run-x86-SE` and run [03-run-x86-SE.py](../../materials/02-Using-gem5/03-running-in-gem5/03-run-x86-SE/03-run-x86-SE.py) with the following command:
+First, let's see what the default behavior is. Go to the folder `materials/02-Using-gem5/03-running-in-gem5/03-run-x86-SE` and run [`03-run-x86-SE.py`](../../materials/02-Using-gem5/03-running-in-gem5/03-run-x86-SE/03-run-x86-SE.py) with the following command:
 
 ```bash
 gem5 -re 03-run-x86-SE.py
@@ -330,8 +330,8 @@ warn: No behavior was set by the user for work end. Default behavior is dumping 
 
 As mentioned before, the gem5 standard library might have default behaviors for some of the m5ops. In here, we can see that it has default behaviors for `m5_work_begin` and `m5_work_end`.
 Let's detour a bit to see how the gem5 standard library recognizes the exit event and assigns it a default exit handler.
-All standard library defined exit events can be found in [src/python/gem5/simulate/exit_event.py](https://github.com/gem5/gem5/blob/stable/src/python/gem5/simulate/exit_event.py). It uses the exit string of exit events to categorize exit events. For example, both `"workbegin"` and `"m5_workend instruction encountered"` exit strings are categorized as `ExitEvent.WORKBEGIN`.
-All pre-defined exit event handlers can be found in [src/python/gem5/simulate/exit_event_generators.py](https://github.com/gem5/gem5/blob/stable/src/python/gem5/simulate/exit_event_generators.py).
+All standard library defined exit events can be found in [`src/python/gem5/simulate/exit_event.py`](https://github.com/gem5/gem5/blob/stable/src/python/gem5/simulate/exit_event.py). It uses the exit string of exit events to categorize exit events. For example, both `"workbegin"` and `"m5_workend instruction encountered"` exit strings are categorized as `ExitEvent.WORKBEGIN`.
+All pre-defined exit event handlers can be found in [`src/python/gem5/simulate/exit_event_generators.py`](https://github.com/gem5/gem5/blob/stable/src/python/gem5/simulate/exit_event_generators.py).
 
 For example, `ExitEvent.WORKBEGIN` defaults to using the `reset_stats_generator`. It means that when we are using the standard library's `Simulator` object, if there is an exit with exit string `"workbegin"` or `"m5_workbegin instruction encountered"`, it will automatically execute `m5.stats.reset()` unless we overwrite the default behavior using the `on_exit_event` parameter in the gem5 stdlib `Simulator` parameter.
 
@@ -340,7 +340,7 @@ For example, `ExitEvent.WORKBEGIN` defaults to using the `reset_stats_generator`
 
 ## 03-run-x86-SE
 
-Let's add custom workbegin and workend handlers, and use the `on_exit_event` parameter in `Simulator` parameter to overwrite the default behavior. To do this, add the following into [03-run-x86-SE.py](../../materials/02-Using-gem5/03-running-in-gem5/03-run-x86-SE/03-run-x86-SE.py):
+Let's add custom workbegin and workend handlers, and use the `on_exit_event` parameter in `Simulator` parameter to overwrite the default behavior. To do this, add the following into [`03-run-x86-SE.py`](../../materials/02-Using-gem5/03-running-in-gem5/03-run-x86-SE/03-run-x86-SE.py):
 
 ```python
 # define a workbegin handler
@@ -379,7 +379,7 @@ Let's run this simulation again with the following command
 gem5 -re 03-run-x86-SE.py
 ```
 
-Now, we will see the following in [materials/02-Using-gem5/03-running-in-gem5/03-run-x86-SE/m5out/simout.txt](../../materials/02-Using-gem5/03-running-in-gem5/03-run-x86-SE/m5out/simout.txt)
+Now, we will see the following in [`materials/02-Using-gem5/03-running-in-gem5/03-run-x86-SE/m5out/simout.txt`](../../materials/02-Using-gem5/03-running-in-gem5/03-run-x86-SE/m5out/simout.txt)
 
 ```bash
 3757178000: board.processor.cores.core: A0 T0 : 0x7ffff7c82572 @_end+140737350460442    :   syscall                  : IntAlu :   flags=()
@@ -425,7 +425,7 @@ def set_se_binary_workload(
 ) -> None:
 ```
 
-For more information, we can look at [src/python/gem5/components/boards/se_binary_workload.py](https://github.com/gem5/gem5/blob/stable/src/python/gem5/components/boards/se_binary_workload.py#L71).
+For more information, we can look at [`src/python/gem5/components/boards/se_binary_workload.py`](https://github.com/gem5/gem5/blob/stable/src/python/gem5/components/boards/se_binary_workload.py#L71).
 
 ---
 
@@ -1115,7 +1115,7 @@ Let's return our `core_list` by adding the following line under the comment labe
 return core_list
 ```
 
-Now, open the file [materials/02-Using-gem5/03-running-in-gem5/06-traffic-gen/simple-traffic-generators.py](../../materials/02-Using-gem5/03-running-in-gem5/06-traffic-gen/simple-traffic-generators.py).
+Now, open the file [`materials/02-Using-gem5/03-running-in-gem5/06-traffic-gen/simple-traffic-generators.py`](../../materials/02-Using-gem5/03-running-in-gem5/06-traffic-gen/simple-traffic-generators.py).
 
 Let's replace our `LinearGenerator` with a `HybridGenerator`.
 

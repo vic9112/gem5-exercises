@@ -52,7 +52,7 @@ To use the resources in gem5, we can use the `obtain_resource` function.
 
 Let's do an example to use the `x86-hello64-static` binary in an example.
 
-Go to the [materials/02-Using-gem5/02-gem5-resources/01-hello-example.py](../../materials/02-Using-gem5/02-gem5-resources/01-hello-example.py)
+Go to the [`materials/02-Using-gem5/02-gem5-resources/01-hello-example.py`](../../materials/02-Using-gem5/02-gem5-resources/01-hello-example.py)
 
 This file builds a basic board and we will use the `x86-hello64-static` resource and run the simulation.
 
@@ -128,7 +128,7 @@ The `SuiteResource` class acts as a generator so we can iterate through the work
 
 Let's print some workload information from  the `x86-getting-started-benchmark-suite` suite.
 
-Let's modify [02-suite-workload-example.py](../../materials/02-Using-gem5/02-gem5-resources/02-suite-workload-example.py). Below, we get the resource and iterate through the suite, printing the `id` and `version` of each workload. Add this to the bottom of the script:
+Let's modify [`02-suite-workload-example.py`](../../materials/02-Using-gem5/02-gem5-resources/02-suite-workload-example.py). Below, we get the resource and iterate through the suite, printing the `id` and `version` of each workload. Add this to the bottom of the script:
 
 ```python
 getting_started_suite = obtain_resource("x86-getting-started-benchmark-suite")
@@ -224,7 +224,7 @@ gcc -o pattern pattern.c
 
 Now, let's use the local path method.
 
-In [03-run-local-resource-local-path.py](../../materials/02-Using-gem5/02-gem5-resources/03-run-local-resource-local-path.py), create the binary resource object as follows:
+In [`03-run-local-resource-local-path.py`](../../materials/02-Using-gem5/02-gem5-resources/03-run-local-resource-local-path.py), create the binary resource object as follows:
 
 ```python
 binary = BinaryResource(local_path="./pattern")
@@ -276,7 +276,7 @@ The [JSON resource](../../materials/02-Using-gem5/02-gem5-resources/03-local-res
 
 ## Let's get the resource and run the simulation
 
-In [04-run-local-resource-json.py](../../materials/02-Using-gem5/02-gem5-resources/04-run-local-resource-json.py), we can get the binary by using obtain resource:
+In [`04-run-local-resource-json.py`](../../materials/02-Using-gem5/02-gem5-resources/04-run-local-resource-json.py), we can get the binary by using obtain resource:
 
 ```python
 board.set_se_binary_workload(obtain_resource("x86-pattern-print"))

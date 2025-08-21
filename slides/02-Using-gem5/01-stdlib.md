@@ -103,7 +103,7 @@ cache_hierarchy = MESITwoLevelCacheHierarchy(
 ```
 
 `MESITwoLevelCacheHierarchy` is a component that represents a two-level MESI cache hierarchy.
-This uses the `Ruby memory model(05-cache-hierarchies.pdf)`.
+This uses the [Ruby memory model](05-cache-hierarchies.md).
 
 The component for the cache hierarchy is parameterized with the sizes and associativities of the L1 and L2 caches.
 
@@ -120,7 +120,7 @@ This component represents a single-channel DDR3 memory system.
 There is a `size` parameter that can be used to specify the size of the memory system of the simulated system. You can reduce the size to save simulation time, or use the default for the memory type (e.g., one channel of DDR3 defaults to 8 GiB).
 
 There are also multi channel memories available.
-We'll cover this more in `Memory Systems(06-memory.pdf)`.
+We'll cover this more in [Memory Systems](06-memory.md).
 
 ---
 
@@ -378,7 +378,7 @@ gem5/src/python/gem5/components
 
 ### gem5 has three (or four or five) different processor models
 
-More details coming in the `CPU Models(04-cpu-models.pdf)` section.
+More details coming in the [CPU Models](04-cpu-models.md) section.
 
 - `CPUTypes.TIMING`: A simple in-order CPU model
   - This is a "single cycle" CPU. Each instruction takes the time to fetch and executes immediately.
@@ -441,7 +441,7 @@ In addition, we can access host resources such as files of libraries to dynamica
 
 ## SE mode: If in doubt, use FS mode
 
-FS mode does everything SE mode does (and more!) but can take longer to get to the region of interest. You have to wait for the OS to boot each time (unless you `accelerate the simulation(08-accelerating-simulation.pdf)`).
+FS mode does everything SE mode does (and more!) but can take longer to get to the region of interest. You have to wait for the OS to boot each time (unless you [accelerate the simulation](08-accelerating-simulation.md)).
 
 However, as SE mode doesn't simulate the OS, you risk missing important events triggered via syscalls, I/O, or the operating system, which may mean your simulated system doesn't properly reflect the real system.
 
@@ -639,7 +639,7 @@ To place our idea of gem5:
 
 See [`gem5/src/python/gem5/simulate/simulator.py`](../../gem5/src/python/gem5/simulate/simulator.py) for the Simulator source.
 
-We'll see more about this in `Accelerating Simulation(08-accelerating-simulation.pdf)`.
+We'll see more about this in [Accelerating Simulation](08-accelerating-simulation.md).
 
 ---
 
@@ -737,7 +737,7 @@ And [`gem5/src/cpu/o3/BaseO3CPU.py`](../../gem5/src/cpu/o3/BaseO3CPU.py)
 
   self.core.numROBEntries = rob_size
   self.core.numPhysIntRegs = num_int_regs
-  self.core.numPhysFloatRegs = num_fp_regs
+  self.core.numPhysFloatRegs = num_fp_regs                 
 
   self.core.branchPred = TournamentBP()
 
