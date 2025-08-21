@@ -48,7 +48,7 @@ gem5 -re 03-run-x86-SE.py
 '''
 
 
-binary_path = Path("/workspaces/2024/materials/02-Using-gem5/03-running-in-gem5/02-annotate-this/complete/02-annotate-this")
+binary_path = Path("/workspaces/2025/materials/02-Using-gem5/03-running-in-gem5/02-annotate-this/complete/02-annotate-this")
 
 
 cache_hierarchy = PrivateL1CacheHierarchy(

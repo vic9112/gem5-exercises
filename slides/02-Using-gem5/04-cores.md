@@ -88,7 +88,7 @@ resource contention
 
 ## The O3CPU Model has many parameters
 
-[src/cpu/o3/BaseO3CPU.py](../../gem5/src/cpu/o3/BaseO3CPU.py)
+[gem5/src/cpu/o3/BaseO3CPU.py](../../gem5/src/cpu/o3/BaseO3CPU.py)
 
 ```python
 decodeToFetchDelay = Param.Cycles(1, "Decode to fetch delay")
@@ -228,7 +228,7 @@ cpu_type = CPUTypes.ATOMIC
 Let's run it!
 
 ```sh
-cd /workspaces/2024/materials/02-Using-gem5/04-cores
+cd /workspaces/2025/materials/02-Using-gem5/04-cores
 gem5 --outdir=atomic-normal-cache cores.py
 ```
 
