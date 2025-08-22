@@ -283,6 +283,8 @@ cont_choice "Ruby protocol"
 
 Create a new build directory for the gem5 binary with your protocol. Let's start with the configuration from `build_opts/ALL` and modify it. You need to change the protocol, and you should enable the HTML output.
 
+Note: Make sure you are under the gem5 source directory(`/workspaces/2025/gem5`).
+
 ```sh
 scons defconfig build/ALL_MyMSI build_opts/ALL
 ```
@@ -296,7 +298,7 @@ scons menuconfig build/ALL_MyMSI
 ```
 
 ```sh
-scons -j$(nproc) build/ALL_MyMSI/gem5.opt PROTOCOL=MyMSI
+scons -j$(nproc) build/ALL_MyMSI/gem5.opt PROTOCOL=MyMSI # This will take a while
 ```
 
 ---
@@ -306,6 +308,23 @@ scons -j$(nproc) build/ALL_MyMSI/gem5.opt PROTOCOL=MyMSI
 Modify [`configs/learning_gem5/part3/msi_caches.py`](../../gem5/configs/learning_gem5/part3/msi_caches.py) to use your new protocol.
 This file sets up the Ruby protocol for the MSI caches already in gem5's codebase. We'll use it for simplicity.
 
+Note: In `msi_caches.py` there is a check that only allows the MSI protocol:
+
+```sh
+if buildEnv['PROTOCOL'] != 'MSI':
+    fatal("This system assumes MSI from learning gem5!")
+```
+
+If you want to use `MyMSI`, you need to modify it to:
+
+```sh
+if buildEnv['PROTOCOL'] not in ['MSI', 'MyMSI']:
+    fatal("This system assumes MSI or MyMSI from learning gem5!")
+```
+
+---
+
+Then you can run the simulation with:
 ```sh
 build/ALL_MyMSI/gem5.opt configs/learning_gem5/part3/simple_ruby.py
 ```

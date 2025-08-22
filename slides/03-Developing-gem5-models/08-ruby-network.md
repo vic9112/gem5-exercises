@@ -41,7 +41,7 @@ First we'll create a new topology (a ring) and then we'll extend it to use Garne
 
 ## Creating a new topology
 
-From [Modeling Cache Coherence](06-modeling-cache-coherence.md)
+From [`Modeling Cache Coherence`](06-modeling-cache-coherence.md)
 Need an *external link* between each controller and a router.
 
 ```python
@@ -63,7 +63,7 @@ self.ext_links = [
 
 ## Creating a new topology
 
-From [Modeling Cache Coherence](06-modeling-cache-coherence.md)
+From [`Modeling Cache Coherence`](06-modeling-cache-coherence.md)
 Create internal links between routers.
 
 ```python
@@ -86,7 +86,7 @@ for ri in self.routers:
 
 ## Let's create a ring topology for the CHI protocol
 
-Building off of [CHI protocol](07-chi-protocol.md)
+Building off of [`CHI protocol`](07-chi-protocol.md)
 
 ![diagram showing a ring topology with four cores, two memory controllers and two L2s](08-ruby-network-imgs/ring.drawio.svg)
 
@@ -94,7 +94,7 @@ Building off of [CHI protocol](07-chi-protocol.md)
 
 ## Create the topology file
 
-Open [../../materials/03-Developing-gem5-models/08-ruby-network/ring.py](../../materials/03-Developing-gem5-models/08-ruby-network/ring.py)
+Open [`materials/03-Developing-gem5-models/08-ruby-network/ring.py`](../../materials/03-Developing-gem5-models/08-ruby-network/ring.py)
 
 Note: There are a lot off oddities in this code. Most of it, you'll just have to take my word for it...
 

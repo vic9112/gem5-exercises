@@ -167,7 +167,7 @@ sim.run()
 ## Test the new hierarchy and look at the stats
 
 ```sh
-> gem5-chi run_test.py
+> gem5-chi run-test.py
 ```
 
 stats.txt
