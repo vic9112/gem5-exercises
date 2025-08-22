@@ -1,5 +1,5 @@
 baseline_ipc = 0.0
-baseline_stats_file = "/workspaces/2024/materials/02-Using-gem5/09-sampling/01-simpoint/complete/full-detailed-run-m5out/stats.txt"
+baseline_stats_file = "/workspaces/2025/materials/02-Using-gem5/09-sampling/01-simpoint/complete/full-detailed-run-m5out/stats.txt"
 
 with open(baseline_stats_file, "r") as f:
     for line in f:
@@ -13,7 +13,7 @@ simpoint_ipcs = []
 simpoint_weights = []
 
 for i in range(num_simpoints):
-    simpoint_stats_file = f"/workspaces/2024/materials/02-Using-gem5/09-sampling/01-simpoint/complete/simpoint{i}-run/stats.txt"
+    simpoint_stats_file = f"/workspaces/2025/materials/02-Using-gem5/09-sampling/01-simpoint/complete/simpoint{i}-run/stats.txt"
     with open(simpoint_stats_file, "r") as f:
         simpoint_ipc = 0.0
         for line in f:
@@ -21,7 +21,7 @@ for i in range(num_simpoints):
                 line = line.split()
                 simpoint_ipc = float(line[1])
         simpoint_ipcs.append(simpoint_ipc)
-    simpoint_stdout_file = f"/workspaces/2024/materials/02-Using-gem5/09-sampling/01-simpoint/complete/simpoint{i}-run/simout.txt"
+    simpoint_stdout_file = f"/workspaces/2025/materials/02-Using-gem5/09-sampling/01-simpoint/complete/simpoint{i}-run/simout.txt"
     simpoint_weight = 0.0
     with open(simpoint_stdout_file, "r") as f:
         for line in f:

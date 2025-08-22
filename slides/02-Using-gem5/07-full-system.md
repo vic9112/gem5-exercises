@@ -70,7 +70,7 @@ This workload is an Ubuntu 24.04 boot. It will throw three m5 exits at:
 ## Obtain the workload and set exit event
 
 To set the workload, we add the following to
-[materials/02-Using-gem5/07-full-system/x86-fs-kvm-run.py](../../materials/02-Using-gem5/07-full-system/x86-fs-kvm-run.py):
+[`materials/02-Using-gem5/07-full-system/x86-fs-kvm-run.py`](../../materials/02-Using-gem5/07-full-system/x86-fs-kvm-run.py):
 
 ```python
 workload = obtain_resource("x86-ubuntu-24.04-boot-with-systemd", resource_version="1.0.0")
@@ -379,7 +379,7 @@ sha256sum ./x86-ubuntu-24-04.gz
 
 For this post installation script we need to get the dependencies and build the GAPBS benchmarks.
 
-Add this to the [post-installation.sh](../../materials/02-Using-gem5/07-full-system/x86-ubuntu-gapbs/scripts/post-installation.sh) script
+Add this to the [`materials/02-Using-gem5/07-full-system/x86-ubuntu-gapbs/scripts/post-installation.sh`](../../materials/02-Using-gem5/07-full-system/x86-ubuntu-gapbs/scripts/post-installation.sh) script
 
 ```bash
 git clone https://github.com/sbeamer/gapbs
@@ -397,9 +397,9 @@ cd /workspaces/2025/materials/02-Using-gem5/07-full-system/x86-ubuntu-gapbs
 
 ## Let's use our built disk image in gem5
 
-Let's add the md5sum and the path to our [local JSON ](../../materials/02-Using-gem5/07-full-system/completed/local-gapbs-resource.json).
+Let's add the md5sum and the path to our [`local JSON(materials/02-Using-gem5/07-full-system/completed/local-gapbs-resource.json)`](../../materials/02-Using-gem5/07-full-system/completed/local-gapbs-resource.json).
 
-Let's run the [gem5 GAPBS config](../../materials/02-Using-gem5/07-full-system/completed/x86-fs-gapbs-kvm-run.py).
+Let's run the [`gem5 GAPBS config(materials/02-Using-gem5/07-full-system/completed/x86-fs-gapbs-kvm-run.py)`](../../materials/02-Using-gem5/07-full-system/completed/x86-fs-gapbs-kvm-run.py).
 
 ```bash
 GEM5_RESOURCE_JSON_APPEND=./completed/local-gapbs-resource.json gem5 x86-fs-gapbs-kvm-run.py
@@ -411,7 +411,7 @@ This script should run the bfs benchmark.
 
 ## Let's see how we can access the terminal using m5term
 
-- We are going to run the same [gem5 GAPBS config](../../materials/02-Using-gem5/07-full-system/x86-fs-gapbs-kvm-run.py) but with a small change.
+- We are going to run the same [`gem5 GAPBS config(materials/02-Using-gem5/07-full-system/x86-fs-gapbs-kvm-run.py)`](../../materials/02-Using-gem5/07-full-system/x86-fs-gapbs-kvm-run.py) but with a small change.
 
 Let's change the last `yield True` to `yield False` so that the simulation doesn't exit and we can access the simulation.
 

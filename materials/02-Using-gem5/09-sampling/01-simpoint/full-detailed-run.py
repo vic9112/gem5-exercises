@@ -71,7 +71,7 @@ board = SimpleBoard(
 )
 
 board.set_se_binary_workload(
-    binary=BinaryResource(local_path=Path("/workspaces/2024/materials/02-Using-gem5/09-sampling/01-simpoint/workload/simple_workload").as_posix())
+    binary=BinaryResource(local_path=Path("/workspaces/2025/materials/02-Using-gem5/09-sampling/01-simpoint/workload/simple_workload").as_posix())
 )
 
 simulator = Simulator(

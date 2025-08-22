@@ -69,13 +69,13 @@ board = SimpleBoard(
 
 simpoint_info = SimPoint(
     simpoint_interval=1_000_000,
-    simpoint_file_path=Path("/workspaces/2024/materials/02-Using-gem5/09-sampling/01-simpoint/results.simpts"),
-    weight_file_path=Path("/workspaces/2024/materials/02-Using-gem5/09-sampling/01-simpoint/results.weights"),
+    simpoint_file_path=Path("/workspaces/2025/materials/02-Using-gem5/09-sampling/01-simpoint/results.simpts"),
+    weight_file_path=Path("/workspaces/2025/materials/02-Using-gem5/09-sampling/01-simpoint/results.weights"),
     warmup_interval=1_000_000
 )
 
 board.set_se_simpoint_workload(
-    binary=BinaryResource(local_path=Path("/workspaces/2024/materials/02-Using-gem5/09-sampling/01-simpoint/workload/simple_workload").as_posix()),
+    binary=BinaryResource(local_path=Path("/workspaces/2025/materials/02-Using-gem5/09-sampling/01-simpoint/workload/simple_workload").as_posix()),
     simpoint=simpoint_info
 )
 
