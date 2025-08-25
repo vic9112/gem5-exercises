@@ -209,20 +209,26 @@ root@EE6455-gem5:/workspaces/2025#
 
 ---
 
-**Note on KVM and Full-System Simulation**
+**Note on KVM and Full-System Simulation:**
 
 In several chapters of the gem5 bootcamp, **KVM** acceleration is used to speed up simulation.
-- **Full-System (02-Using-gem5/Chapter 07)**, **CHI Protocol (03-Developing-gem5-models/Chapter 07)**, and **Ruby Network (03-Developing-gem5-models/Chapter 08)** – All of these chapters use **KVM acceleration** to speed up full-system simulations (e.g., booting Ubuntu or running workloads with advanced memory systems).
+- **Full-System (02-Using-gem5/Chapter 07)**, **CHI Protocol (03-Developing-gem5-models/Chapter 07)**, and **Ruby Network (03-Developing-gem5-models/Chapter 08)** – All of these chapters use **KVM acceleration** to speed up full-system simulations (e.g., booting Ubuntu or running workloads with advanced systems).
 
 **Supported Host OS:**
 
 - **Windows Pro / Enterprise with Hyper-V enabled**
-If nested virtualization is enabled and you run the container with `--device /dev/kvm`, then KVM acceleration will work.
+    If nested virtualization is enabled and you run the container with `--device /dev/kvm`, then KVM acceleration will work.  
+    See Microsoft’s official docs:
+    - [Overview of Nested Virtualization](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/nested-virtualization)
+    - [Enable Nested Virtualization](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/enable-nested-virtualization)
+
+
+---
+
 
 - **Linux Host OS**
 If your CPU/BIOS supports virtualization (Intel VT-x or AMD-V) and `/dev/kvm` is available, you can pass it into the container with `--device /dev/kvm`.
 
----
 
 - **Windows Home Edition**
 Hyper-V and nested virtualization are not supported. In this case, KVM cannot be used and simulations will run **without hardware acceleration**, which will be significantly slower.
