@@ -146,7 +146,8 @@ PS C:\Users\user>
 
 ## Run a container in PowerShell
 
-For PowerShell users, run this command:
+**For Windows Pro / Enterprise (with Hyper-V enabled):**
+> If you are using **Windows Pro** or **Enterprise edition**, and you have enabled **Hyper-V** (so that nested virtualization is supported), you can pass through **KVM** into the container.
 
 ```sh
 docker run -it `
@@ -157,6 +158,23 @@ docker run -it `
 --hostname EE6455-gem5 `
 ghcr.io/gem5/devcontainer:bootcamp-2024
 ```
+
+
+**For Windows Home (no Hyper-V):**
+> If you are using **Windows Home edition**, Hyper-V and nested virtualization are not available.
+In this case, **do not add** `--device /dev/kvm`, since **KVM** passthrough will not work.
+
+```sh
+docker run -it `
+--name ee6455-gem5 `
+--volume $HOME\workspaces\:/workspaces/ `
+--workdir /workspaces/2025/ `
+--hostname EE6455-gem5 `
+ghcr.io/gem5/devcontainer:bootcamp-2024
+```
+
+---
+
 
 Expected outcome: An interactive TTY will indicate its readiness to accept commands.
 
@@ -188,6 +206,26 @@ Status: Downloaded newer image for ghcr.io/gem5/devcontainer:bootcamp-2024
 root@EE6455-gem5:/workspaces/2025#
 
 ```
+
+---
+
+**Note on KVM and Full-System Simulation**
+
+In several chapters of the gem5 bootcamp, **KVM** acceleration is used to speed up simulation.
+- **Full-System (02-Using-gem5/Chapter 07)**, **CHI Protocol (03-Developing-gem5-models/Chapter 07)**, and **Ruby Network (03-Developing-gem5-models/Chapter 08)** – All of these chapters use **KVM acceleration** to speed up full-system simulations (e.g., booting Ubuntu or running workloads with advanced memory systems).
+
+**Supported Host OS:**
+
+- **Windows Pro / Enterprise with Hyper-V enabled**
+If nested virtualization is enabled and you run the container with `--device /dev/kvm`, then KVM acceleration will work.
+
+- **Linux Host OS**
+If your CPU/BIOS supports virtualization (Intel VT-x or AMD-V) and `/dev/kvm` is available, you can pass it into the container with `--device /dev/kvm`.
+
+---
+
+- **Windows Home Edition**
+Hyper-V and nested virtualization are not supported. In this case, KVM cannot be used and simulations will run **without hardware acceleration**, which will be significantly slower.
 
 ---
 

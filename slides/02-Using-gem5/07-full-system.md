@@ -121,6 +121,12 @@ To make it easier to run from anywhere, add the path to your environment:
 export PATH=$PATH:/workspaces/2025/gem5/util/term
 ```
 
+You can also add this line to your ~/.bashrc so it will be loaded automatically every time you open a new shell:
+```
+echo 'export PATH=$PATH:/workspaces/2025/gem5/util/term' >> ~/.bashrc
+source ~/.bashrc
+```
+
 ---
 
 ## Watch gem5's output
