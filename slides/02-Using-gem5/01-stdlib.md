@@ -306,11 +306,21 @@ gem5/src/python/gem5/components
 - Any binary can use classic caches
 - Only one Ruby protocol per gem5 binary
 
-### In your codespaces, we have some pre-built binaries
+
+### In your codespaces
+
+From the previous `gem5-tutorial`, the following binaries are already built and available:
 
 - `gem5`: CHI (Fully configurable; based on Arm CHI)
 - `gem5-mesi`: MESI_Two_Level (Private L1s, Shared L2)
+
+### Build your own binary (optional)
+
+If you need GPU support, you must build the `gem5-vega` binary yourself using `scons`.
+
 - `gem5-vega`: GPU_VIPER (CPU: Private L1/L2 core pairs, shared L3; GPU: Private L1, shared L2)
+
+
 
 ---
 

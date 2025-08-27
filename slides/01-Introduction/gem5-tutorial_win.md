@@ -156,7 +156,7 @@ docker run -it `
 --volume $HOME\workspaces\:/workspaces/ `
 --workdir /workspaces/2025/ `
 --hostname EE6455-gem5 `
-ghcr.io/gem5/devcontainer:bootcamp-2024
+ghcr.io/gem5/devcontainer:v25-0
 ```
 
 
@@ -170,7 +170,7 @@ docker run -it `
 --volume $HOME\workspaces\:/workspaces/ `
 --workdir /workspaces/2025/ `
 --hostname EE6455-gem5 `
-ghcr.io/gem5/devcontainer:bootcamp-2024
+ghcr.io/gem5/devcontainer:v25-0
 ```
 
 ---
@@ -190,9 +190,9 @@ PS C:\Users\user> docker container run -it `
 >> --volume $HOME\workspaces\:/workspaces/ `
 >> --workdir /workspaces/2025/ `
 >> --hostname EE6455-gem5 `
->> ghcr.io/gem5/devcontainer:bootcamp-2024
-Unable to find image 'ghcr.io/gem5/devcontainer:bootcamp-2024' locally
-bootcamp-2024: Pulling from gem5/devcontainer
+>> ghcr.io/gem5/devcontainer:v25-0
+Unable to find image 'ghcr.io/gem5/devcontainer:v25-0' locally
+v25-0: Pulling from gem5/devcontainer
 00d679a470c4: Pull complete
 c782a11a41b6: Pull complete
 4f6b9996da3d: Pull complete
@@ -202,7 +202,7 @@ bb60cbcef558: Pull complete
 2ceb23f2c7bb: Pull complete
 31825ae2d134: Pull complete
 Digest: sha256:dc299b8bf11b324cbd89aab82bdbe31bf9ce71a33386f2a2153a590a803d2c71
-Status: Downloaded newer image for ghcr.io/gem5/devcontainer:bootcamp-2024
+Status: Downloaded newer image for ghcr.io/gem5/devcontainer:v25-0
 root@EE6455-gem5:/workspaces/2025#
 
 ```
@@ -232,6 +232,11 @@ If your CPU/BIOS supports virtualization (Intel VT-x or AMD-V) and `/dev/kvm` is
 
 - **Windows Home Edition**
 Hyper-V and nested virtualization are not supported. In this case, KVM cannot be used and simulations will run **without hardware acceleration**, which will be significantly slower.
+
+**Important:** KVM requires the host ISA to match the guest ISA:
+- x86 host → can accelerate x86 guest (e.g., Ubuntu x86 FS workloads)  
+- ARM host → can accelerate ARM guest  
+- Cross-ISA acceleration (e.g., x86 host running RISC-V guest) is **not supported**.
 
 ---
 
@@ -264,6 +269,7 @@ Hyper-V and nested virtualization are not supported. In this case, KVM cannot be
     docker rm ee6455-gem5
     ```
     - Works only if the container is stopped.
+    - **Warning:** Removing a container will delete all data created inside it (unless you used volumes or bind mounts to persist the data).
 
 
 ---
@@ -316,6 +322,54 @@ root@EE6455-gem5:/workspaces/2025#
 ```
 
 ---
+
+## Build and Setup gem5 with MESI and CHI
+
+1. Copy the provided build configuration files:
+
+    ```sh
+    cp /workspaces/2025/gem5_build_opts/* /workspaces/2025/gem5/build_opts
+    ```
+
+2. Build gem5 with MESI and CHI protocols (this will take a while):
+
+    ```sh
+    cd /workspaces/2025/gem5
+    scons build/MESI/gem5.opt -j$(nproc)
+    scons build/CHI/gem5.opt -j$(nproc)
+    ```
+
+3. Create symbolic links so you can run them with simple commands:
+
+    ```sh
+    sudo ln -sf /workspaces/2025/gem5/build/MESI/gem5.opt /usr/local/bin/gem5-mesi
+    sudo ln -sf /workspaces/2025/gem5/build/CHI/gem5.opt /usr/local/bin/gem5
+    ```
+
+    **Note:** This will overwrite any existing `/usr/local/bin/gem5` or `/usr/local/bin/gem5-mesi`.  
+
+---
+
+
+4. Verify the builds:
+
+    Check the symbolic links:
+    ```sh
+    ls -l $(which gem5)
+    ls -l $(which gem5-mesi)
+    ```
+
+    Check the build-time configuration:
+    ```sh
+    gem5 -c "import m5; print(vars(m5.defines))"
+    gem5-mesi -c "import m5; print(vars(m5.defines))"
+    ```
+
+    These commands will print out the build-time configuration so you can confirm whether **Ruby**, **protocol**, and **ISA** settings are correct.
+
+
+---
+
 
 ## Run a simulation using gem5
 
