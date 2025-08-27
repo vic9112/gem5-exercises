@@ -624,7 +624,7 @@ We can run ELFies with the [ELFieInfo class](https://github.com/gem5/gem5/blob/s
 
 There is an example in [`materials/02-Using-gem5/09-sampling/02-elfies/run-elfies.py`](../../materials/02-Using-gem5/09-sampling/02-elfies/run-elfies.py)
 
-We can run it with the following command but it is not suggested because it will take too long.
+We can run it with the following command but it is not suggested because **it will take too long**.
 
 ```bash
 gem5 -re run-elfies.py

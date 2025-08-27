@@ -67,17 +67,98 @@ This workload is an Ubuntu 24.04 boot. It will throw three m5 exits at:
 
 ---
 
+
+## Choosing the Correct Full-System Script
+
+Depending on your host machine’s capabilities (whether KVM is available and which ISA you want to simulate),  
+choose the appropriate script from `materials/02-Using-gem5/07-full-system/`:
+
+- **If your machine supports KVM and you want to simulate x86 ISA**:  
+  Choose -> `x86-fs-kvm-run.py`
+
+- **If your machine supports KVM and you want to simulate ARM ISA**:  
+  Choose -> `arm-fs-kvm-run.py`
+
+- **If your machine does not support KVM acceleration (or you are on Windows Home Edition)**:  
+  Choose -> `x86-fs-run.py` (x86 simulation without KVM, much slower)
+
+---
+
+
+### How to check if KVM is supported
+
+This should have already been checked back in the **gem5-tutorial chapter** when you created the container.  
+At that time, if your host supports KVM, you needed to add `--device /dev/kvm` to your `docker run` command.  
+
+You can run the following command on your Linux host:
+
+```sh
+grep -E -c '(vmx|svm)' /proc/cpuinfo
+```
+- If the output is greater than 0, your CPU supports virtualization (Intel VT-x = `vmx`, AMD-V = `svm`).
+- You should also see `/dev/kvm` on your host if KVM is enabled in BIOS.
+
+---
+
+
 ## Obtain the workload and set exit event
 
-To set the workload, we add the following to
-[`materials/02-Using-gem5/07-full-system/x86-fs-kvm-run.py`](../../materials/02-Using-gem5/07-full-system/x86-fs-kvm-run.py):
+Once you have selected the correct script, you also need to set the matching workload:
+
+For `x86-fs-kvm-run.py` or `x86-fs-run.py` (x86 full system):
 
 ```python
 workload = obtain_resource("x86-ubuntu-24.04-boot-with-systemd", resource_version="1.0.0")
 board.set_workload(workload)
 ```
 
+For `arm-fs-kvm-run.py` (ARM full system):
+
+```python
+workload = obtain_resource("arm-ubuntu-24.04-boot-with-systemd", resource_version="1.0.0")
+board.set_workload(workload)
+```
+
+This ensures the correct kernel, bootloader, and disk image are loaded for the selected ISA.
+
+
 ---
+
+
+### Note on runtime with and without KVM:
+
+- If you run **with KVM enabled**, booting `x86-ubuntu-24.04-boot-with-systemd` usually takes only a few seconds or minutes.  
+- If you run **without KVM**, booting the same workload may take **3+ hours** because every instruction of the OS boot is simulated in detail.  
+
+In this case, you can switch to the lighter workload:
+
+```python
+workload = obtain_resource("x86-ubuntu-24.04-boot-no-systemd", resource_version="1.0.0")
+board.set_workload(workload)
+```
+
+The **no-systemd** image removes the systemd service manager and other startup tasks.  
+It still boots into Ubuntu 24.04, but with a much simpler init process, making it **significantly faster** to simulate when hardware acceleration (KVM) is not available.
+
+---
+
+### Runtime comparison
+
+Workload:
+
+- **x86-ubuntu-24.04-boot-with-systemd**
+  - With KVM: ~1–2 minutes
+  - Without KVM: 3+ hours
+
+- **x86-ubuntu-24.04-boot-no-systemd**
+  - With KVM: ~1 minute
+  - Without KVM: ~5–10 minutes
+
+
+
+---
+
+
 
 <!-- _class: code-80-percent -->
 
@@ -133,11 +214,29 @@ source ~/.bashrc
 
 Now, let's run the workload and connect to the terminal of the disk image boot using `m5term`.
 
-Run gem5 with:
+### Run gem5 with:
 
-```bash
-gem5 x86-fs-kvm-run.py
-```
+Depending on your host and ISA support, use the appropriate command:
+
+- **x86 with KVM**  
+    ```bash
+    gem5 x86-fs-kvm-run.py
+    ```
+
+- **x86 without KVM**
+    ```bash
+    gem5 x86-fs-run.py
+    ```
+
+- **ARM with KVM**
+    ```bash
+    gem5 arm-fs-kvm-run.py
+    ```
+
+---
+
+
+### Connect to the simulated terminal
 
 In another terminal window inside the same container, run the following command to connect to the disk image boot's terminal:
 
@@ -145,7 +244,7 @@ In another terminal window inside the same container, run the following command 
 m5term 3456
 ```
 
-3456 is the port number on which the terminal is running.
+Here `3456` is the port number on which the terminal is running.
 You will see this printed in the gem5 output.
 
 If you run multiple gem5 instances, they will have sequential port numbers.
@@ -178,14 +277,17 @@ This output is what you will see inside the `m5term` terminal window, confirming
 
 <!-- _class: start -->
 
-## Creating your own disk images
+## Creating your own disk images (Optional)
 
 ---
 
-
-**Warning:**
+**Note:**  
 Before starting, make sure you have the **QEMU GUI backend** installed.  
-Packer relies on QEMU to boot and install the OS, and without a proper GUI backend the installation may fail.
+Packer relies on QEMU to boot and install the OS, and without a proper GUI backend the installation may fail.  
+
+**Important:**  
+This section is **optional**. You are **not required** to go through this process at least once — it is only provided for those who wish to try creating disk images manually.
+
 
 
 ---

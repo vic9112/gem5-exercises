@@ -275,7 +275,7 @@ cache_hierarchy = PrivateL1CacheHierarchy(l1d_size="1KiB", l1i_size="1KiB")
 Let's run it!
 
 ```sh
-gem5 --outdir=timing-small-cache ./materials/02-Using-gem5/04-cores/cores.py
+gem5 --outdir=timing-small-cache cores.py
 ```
 
 Make sure the out directory is set to **timing-small-cache**.
