@@ -190,7 +190,7 @@ board.processor.cores3.generator.writeBW 948724311.716480
 ## Now, let's run a full system simulation
 
 Let's create a script to run IS from NPB.
-Just add the following to the template in `materials/03-Developing-gem5-models/07-chi-protocol/run-is-{your computer ISA}.py`.
+Just add the following to the template in `materials/03-Developing-gem5-models/07-chi-protocol/run-is-{your host machine ISA}.py`.
 
 ```python
 from hierarchy import PrivateL1SharedL2CacheHierarchy
@@ -202,7 +202,7 @@ cache_hierarchy = PrivateL1SharedL2CacheHierarchy(
 )
 ```
 
-Replace `{your computer ISA}` with the appropriate version:
+Replace `{your host machine ISA}` with the appropriate version:
 - `run-is-x86-kvm.py` for x86 hosts with KVM
 - `run-is-x86.py` for x86 hosts without KVM
 - `run-is-arm.py` for ARM hosts
