@@ -212,7 +212,7 @@ root@EE6455-gem5:/workspaces/2025#
 **Note on KVM and Full-System Simulation:**
 
 In several chapters of the gem5 bootcamp, **KVM** acceleration is used to speed up simulation.
-- **Full-System (02-Using-gem5/Chapter 07)**, **CHI Protocol (03-Developing-gem5-models/Chapter 07)**, and **Ruby Network (03-Developing-gem5-models/Chapter 08)** – All of these chapters use **KVM acceleration** to speed up full-system simulations (e.g., booting Ubuntu or running workloads with advanced systems).
+- **Full-System (02-Using-gem5/07-full-system)** and **CHI Protocol (03-Developing-gem5-models/07-chi-protocol)** – these chapters use **KVM acceleration** to speed up full-system simulations (e.g., booting Ubuntu or running workloads with advanced systems).
 
 **Supported Host OS:**
 
