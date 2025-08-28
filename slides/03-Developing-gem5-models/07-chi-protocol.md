@@ -167,7 +167,7 @@ sim.run()
 ## Test the new hierarchy and look at the stats
 
 ```sh
-> gem5-chi run-test.py
+gem5 run-test.py
 ```
 
 stats.txt
@@ -190,7 +190,7 @@ board.processor.cores3.generator.writeBW 948724311.716480
 ## Now, let's run a full system simulation
 
 Let's create a script to run IS from NPB.
-Just add the following to the template in [`materials/03-Developing-gem5-models/07-chi-protocol/run-is.py`](../../materials/03-Developing-gem5-models/07-chi-protocol/run-is.py/).
+Just add the following to the template in `materials/03-Developing-gem5-models/07-chi-protocol/run-is-{your computer ISA}.py`.
 
 ```python
 from hierarchy import PrivateL1SharedL2CacheHierarchy
@@ -202,13 +202,33 @@ cache_hierarchy = PrivateL1SharedL2CacheHierarchy(
 )
 ```
 
+Replace `{your computer ISA}` with the appropriate version:
+- `run-is-x86-kvm.py` for x86 hosts with KVM
+- `run-is-x86.py` for x86 hosts without KVM
+- `run-is-arm.py` for ARM hosts
+
 ---
 
 ## Run the script
 
-```sh
-gem5 run-is.py
-```
+Depending on your host machine and the ISA you want to simulate, please choose the appropriate script:
+
+- x86 with KVM acceleration:
+    ```sh
+    gem5 run-is-x86-kvm.py
+    ```
+
+- x86 without KVM:
+    ```sh
+    gem5 run-is-x86.py
+    ```
+
+- ARM:
+    ```sh
+    gem5 run-is-arm.py
+    ```
+
+---
 
 You should see the following output pretty quickly
 
@@ -223,6 +243,64 @@ This takes about 5 minutes to complete, but you can check the output while it's 
 `tail -f m5out/board.pc.com_1.terminal`.
 
 ---
+
+
+**Expected output using coommand `m5term 3456`:**
+
+```sh
+...
+Welcome to Ubuntu 18.04.2 LTS!
+...
+Ubuntu 18.04.2 LTS gem5-host ttyS0
+
+gem5-host login: root (automatic login)
+
+Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.19.83 x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+New release '20.04.2 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+The programs included with the Ubuntu system are free software;                                                                                                    
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+
+
+ NAS Parallel Benchmarks (NPB3.3-OMP) - IS Benchmark
+
+ Size:  8388608  (class A)
+ Iterations:  10
+ Number of available threads:  4
+
+
+   iteration
+ -------------------- ROI BEGIN --------------------
+        1
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
 
 ## Grab some stats
 
