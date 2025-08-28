@@ -19,7 +19,7 @@ title: Using gem5's implementation of the CHI Protocol
 <!-- - Extend this to allow for multiple L2s (banked by address) -->
 <!-- - Multiple memory controllers as well -->
 
-Code in [`materials/03-Developing-gem5-models/07-chi-protocol`](../../materials/03-Developing-gem5-models/07-chi-protocol/).
+Code in [`materials/03-Developing-gem5-models/07-chi-protocol/hierarchy.py`](../../materials/03-Developing-gem5-models/07-chi-protocol/hierarchy.py).
 
 ---
 
@@ -245,7 +245,7 @@ This takes about 5 minutes to complete, but you can check the output while it's 
 ---
 
 
-**Expected output using coommand `m5term 3456`:**
+**Expected output using command `m5term 3456`:**
 
 ```sh
 ...
