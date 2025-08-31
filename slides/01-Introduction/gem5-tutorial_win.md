@@ -147,7 +147,7 @@ PS C:\Users\user>
 ## Run a container in PowerShell
 
 **For Windows Pro / Enterprise (with Hyper-V enabled):**
-> If you are using **Windows Pro** or **Enterprise edition**, and you have enabled **Hyper-V** (so that nested virtualization is supported), you can pass through **KVM** into the container.
+> If you are using **Windows Pro** or **Enterprise edition**, and you have enabled **Hyper-V** (so that **nested virtualization** is supported), you can pass through **KVM** into the container.
 
 ```sh
 docker run -it `
@@ -217,7 +217,7 @@ In several chapters of the gem5 bootcamp, **KVM** acceleration is used to speed 
 **Supported Host OS:**
 
 - **Windows Pro / Enterprise with Hyper-V enabled**
-    If nested virtualization is enabled and you run the container with `--device /dev/kvm`, then KVM acceleration will work.  
+    If **nested virtualization** is enabled and you run the container with `--device /dev/kvm`, then KVM acceleration will work.  
     See Microsoft’s official docs:
     - [Overview of Nested Virtualization](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/nested-virtualization)
     - [Enable Nested Virtualization](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/enable-nested-virtualization)
@@ -370,6 +370,20 @@ root@EE6455-gem5:/workspaces/2025#
 
 ---
 
+## Preserve downloaded workloads across container recreations
+
+By default, gem5 downloads resources (kernels, disk images, benchmarks) into `/root/.cache/gem5` inside the container.  
+If the container is deleted, these downloads will also be lost.  
+
+To avoid re-downloading large workloads every time, you can set an environment variable to redirect the resource cache to a persistent directory:
+
+```sh
+export GEM5_RESOURCE_DIR=/workspaces/resources
+```
+This way, when the container is removed and recreated, previously downloaded workloads will still be available.
+
+---
+
 
 ## Run a simulation using gem5
 
@@ -385,7 +399,7 @@ Expected outcome:
 
 - On first run, gem5 will automatically download required resources:
     - `x86-linux-kernel-5.4.0-105-generic`
-    - `x86-ubuntu-24.04-img` (~4.9 GB compressed, takes some time to download and decompress)
+    - `x86-ubuntu-24.04-img` (~4.9 GB , takes some time to download and decompress)
 
 Note: Depending on your network speed, downloading and unpacking `x86-ubuntu-24.04-img` may take several minutes.
 
