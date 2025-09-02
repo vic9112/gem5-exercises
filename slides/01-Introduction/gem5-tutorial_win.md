@@ -146,8 +146,8 @@ PS C:\Users\user>
 
 ## Run a container in PowerShell
 
-**For Windows Pro / Enterprise (with Hyper-V enabled):**
-> If you are using **Windows Pro** or **Enterprise edition**, and you have enabled **Hyper-V** (so that **nested virtualization** is supported), you can pass through **KVM** into the container.
+**For Windows Pro / Enterprise (with Hyper-V and Nested Virtualization enabled):**  
+> If you are on **Windows Pro/Enterprise**, enable **Hyper-V** and **Nested Virtualization** so that **KVM** can be passed through into the container.
 
 ```sh
 docker run -it `

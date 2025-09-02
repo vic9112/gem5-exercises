@@ -70,20 +70,26 @@ This workload is an Ubuntu 24.04 boot. It will throw three m5 exits at:
 
 ## Choosing the Correct Full-System Script
 
-Depending on your host machine’s capabilities (whether KVM is available and which ISA you want to simulate),  
-choose the appropriate script from `materials/02-Using-gem5/07-full-system/`:
+Depending on your host machine’s capabilities (whether KVM is available and which ISA you want to simulate), choose the appropriate script from `materials/02-Using-gem5/07-full-system/`:
 
-- **If your machine supports KVM and you want to simulate x86 ISA**:  
+- **If your host machine is x86 and supports KVM, and you want to simulate x86 ISA**:  
   Choose -> `x86-fs-kvm-run.py`
 
-- **If your machine supports KVM and you want to simulate ARM ISA**:  
+- **If your host machine is ARM and supports KVM, and you want to simulate ARM ISA**:  
   Choose -> `arm-fs-kvm-run.py`
 
-- **If your machine does not support KVM acceleration (or you are on Windows Home Edition)**:  
+- **If your host is x86 but does not support KVM acceleration**  
+  (e.g., Windows Home Edition, or KVM not enabled in BIOS):  
   Choose -> `x86-fs-run.py` (x86 simulation without KVM, much slower)
 
 ---
 
+**Note:** KVM requires that the host ISA matches the guest ISA.  
+- x86 host → can accelerate x86 guest.  
+- ARM host → can accelerate ARM guest.  
+You cannot use KVM to accelerate cross-ISA simulations.
+
+---
 
 ### How to check if KVM is supported
 
