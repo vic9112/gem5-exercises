@@ -32,21 +32,8 @@ Docker Desktop is pre-installed.
 
 You may also install Docker on your own computer. Please ensure you have at least **10 GB** of disk space available.
 
-Instructions for **Windows** and **macOS** are provided.
+This instructions for **macOS** is provided.
 
----
-
-## Install Docker Desktop on Windows
-
-For Windows users:
-
-1. Download [the installer](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe).
-
-1. Double-click `Docker Desktop Installer.exe` to run the installer.
-
-1. Follow the instructions in the installation wizard to authorize the installer and proceed with the installation.
-
-1. Once the installation is complete, select **Close** to finish the process.
 
 ---
 
@@ -86,39 +73,6 @@ This feature is designed to maintain a consistent simulation environment for all
 
 ---
 
-## Open Docker Desktop on Windows
-
-For Windows users:
-
-1. Left-click on the **Start button** (or press the [`Windows key`](https://en.wikipedia.org/wiki/Windows_key)).
-
-1. Select **Docker Desktop** (or type `Docker Desktop` and press `Enter`).
-
-Expected outcome: Docker Desktop will open.
-
----
-
-## Open a terminal emulator on Windows
-
-For Windows users:
-
-1. Right-click on the **Start button** (or press the [`Windows key`](https://en.wikipedia.org/wiki/Windows_key) + `X`).
-
-1. Select **Windows PowerShell** (or press `I`).
-
-Expected outcome: A terminal emulator will open.
-
-```sh
-Windows PowerShell
-Copyright (C) Microsoft Corporation. 著作權所有，並保留一切權利。
-
-請嘗試新的跨平台 PowerShell https://aka.ms/pscore6
-
-PS C:\Users\user>
-```
-
----
-
 ## Open a terminal emulator on macOS
 
 For macOS users:
@@ -135,36 +89,34 @@ Expected outcome: A terminal emulator will open.
 
 <!-- _class: two-col -->
 
-## Run a container in PowerShell
+## Run a container on macOS
 
-For PowerShell users, run this command:
+For macOS users, run this command:
 
 ```sh
-docker container run `
---rm --interactive --tty `
---volume $HOME\workspaces\:/workspaces/ `
---workdir /workspaces/2024/ `
---hostname codespaces-ae14be `
-ghcr.io/gem5/devcontainer:bootcamp-2024
+docker container run --interactive --tty \
+--volume ~/workspaces/:/workspaces/ \
+--workdir /workspaces/2025/ \
+--hostname EE6455-gem5 \
+ghcr.io/gem5/devcontainer:v25-0
 ```
 
 Expected outcome: An interactive TTY will indicate its readiness to accept commands.
 
 ```sh
-root@codespaces-ae14be:/workspaces/2024#
+root@codespaces-ae14be:/workspaces/2025#
 ```
 
 Alternative outcome: A newer image will be downloaded before the interactive TTY displays the username, hostname, and working directory.
 
 ```sh
-PS C:\Users\user> docker container run `
->> --rm --interactive --tty `
->> --volume $HOME\workspaces\:/workspaces/ `
->> --workdir /workspaces/2024/ `
->> --hostname codespaces-ae14be `
->> ghcr.io/gem5/devcontainer:bootcamp-2024
-Unable to find image 'ghcr.io/gem5/devcontainer:bootcamp-2024' locally
-bootcamp-2024: Pulling from gem5/devcontainer
+docker container run --interactive --tty \
+--volume ~/workspaces/:/workspaces/ \
+--workdir /workspaces/2025/ \
+--hostname EE6455-gem5 \
+ghcr.io/gem5/devcontainer:v25-0
+Unable to find image 'ghcr.io/gem5/devcontainer:v25-0' locally
+v25-0: Pulling from gem5/devcontainer
 00d679a470c4: Pull complete
 c782a11a41b6: Pull complete
 4f6b9996da3d: Pull complete
@@ -174,105 +126,220 @@ bb60cbcef558: Pull complete
 2ceb23f2c7bb: Pull complete
 31825ae2d134: Pull complete
 Digest: sha256:dc299b8bf11b324cbd89aab82bdbe31bf9ce71a33386f2a2153a590a803d2c71
-Status: Downloaded newer image for ghcr.io/gem5/devcontainer:bootcamp-2024
-root@codespaces-ae14be:/workspaces/2024#
+Status: Downloaded newer image for ghcr.io/gem5/devcontainer:v25-0
+root@EE6455-gem5:/workspaces/2025#
 ```
 
 ---
 
-## Run a container on macOS
+**Note on KVM and Full-System Simulation:**
 
-For macOS users, run this command:
+In several chapters of the gem5 bootcamp, **KVM** acceleration is used to speed up simulation.
+- **Full-System (02-Using-gem5/07-full-system)** and **CHI Protocol (03-Developing-gem5-models/07-chi-protocol)** – these chapters use **KVM acceleration** to speed up full-system simulations (e.g., booting Ubuntu or running workloads with advanced systems).
 
-```sh
-docker container run \
---rm --interactive --tty \
---volume ~/workspaces/:/workspaces/ \
---workdir /workspaces/2024/ \
---hostname codespaces-ae14be \
-ghcr.io/gem5/devcontainer:bootcamp-2024
-```
+**Supported Host OS:**
 
-Expected outcome: An interactive TTY will indicate its readiness to accept commands.
+- **Windows Pro / Enterprise with Hyper-V enabled**
+    If **nested virtualization** is enabled and you run the container with `--device /dev/kvm`, then KVM acceleration will work.  
+    See Microsoft’s official docs:
+    - [Overview of Nested Virtualization](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/nested-virtualization)
+    - [Enable Nested Virtualization](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/enable-nested-virtualization)
 
-```sh
-root@codespaces-ae14be:/workspaces/2024#
-```
+
+---
+
+
+- **Linux Host OS**
+If your CPU/BIOS supports virtualization (Intel VT-x or AMD-V) and `/dev/kvm` is available, you can pass it into the container with `--device /dev/kvm`.
+
+
+- **Windows Home Edition**
+Hyper-V and nested virtualization are not supported. In this case, KVM cannot be used and simulations will run **without hardware acceleration**, which will be significantly slower.
+
+**Important:** KVM requires the host ISA to match the guest ISA:
+- x86 host → can accelerate x86 guest (e.g., Ubuntu x86 FS workloads)  
+- ARM host → can accelerate ARM guest  
+- Cross-ISA acceleration (e.g., x86 host running RISC-V guest) is **not supported**.
+
+---
+
+
+**Manage an Existing Docker Container**
+
+
+- Start an existing container:
+    ```
+    docker start ee6455-gem5
+    ```
+
+- Attach a shell inside a running container:
+    ```
+    docker exec -it ee6455-gem5 bash
+    ```
+    - Opens a new Bash shell inside the container.
+    - You can have multiple terminals connected at the same time.
+
+
+- Stop a running container:
+    ```
+    docker stop ee6455-gem5
+    ```
+
+---
+
+- Remove a container
+    ```
+    docker rm ee6455-gem5
+    ```
+    - Works only if the container is stopped.
+    - **Warning:** Removing a container will delete all data created inside it (unless you used volumes or bind mounts to persist the data).
+
 
 ---
 
 ## Get the source code of gem5
 
-Run this command:
+Clone the Bootcamp Repository (inside container):
 
 ```sh
 time git clone --recurse-submodules \
-https://gitlab.larc-nthu.net/ee6455/public-gem5bootcamp-2024 /workspaces/2024/
+https://nas.larc-nthu.net:8443/ee6455_2025/public-gem5bootcamp-2025 /workspaces/2025/
 ```
 
 Expected outcome: A repository will be cloned, including its submodules.
 
 ```sh
-root@codespaces-ae14be:/workspaces/2024# time git clone --recurse-submodules \
-> https://gitlab.larc-nthu.net/ee6455/public-gem5bootcamp-2024 /workspaces/2024/
-Cloning into '/workspaces/2024'...
-warning: redirecting to https://gitlab.larc-nthu.net/ee6455/public-gem5bootcamp-2024.git/
-remote: Enumerating objects: 10982, done.
-remote: Counting objects: 100% (6/6), done.
-remote: Compressing objects: 100% (6/6), done.
-remote: Total 10982 (delta 0), reused 0 (delta 0), pack-reused 10976
-Receiving objects: 100% (10982/10982), 378.29 MiB | 28.30 MiB/s, done.
-Resolving deltas: 100% (7432/7432), done.
-Updating files: 100% (952/952), done.
+root@EE6455-gem5:/workspaces/2025# time git clone --recurse-submodules https://nas.larc-nthu.net:8443/ee6455_2025/public-gem5bootcamp-2025 /workspaces/2025/
+Cloning into '/workspaces/2025'...
+warning: redirecting to https://nas.larc-nthu.net:8443/ee6455_2025/public-gem5bootcamp-2025.git/
+remote: Enumerating objects: 11106, done.
+remote: Counting objects: 100% (130/130), done.
+remote: Compressing objects: 100% (130/130), done.
+remote: Total 11106 (delta 78), reused 0 (delta 0), pack-reused 10976 (from 1)
+Receiving objects: 100% (11106/11106), 385.46 MiB | 11.07 MiB/s, done.
+Resolving deltas: 100% (7510/7510), done.
+Updating files: 100% (966/966), done.
 Submodule 'gem5' (https://github.com/gem5/gem5) registered for path 'gem5'
 Submodule 'gem5-resources' (https://github.com/gem5/gem5-resources) registered for path 'gem5-resources'
-Cloning into '/workspaces/2024/gem5'...
-remote: Enumerating objects: 284540, done.
-remote: Counting objects: 100% (1403/1403), done.
-remote: Compressing objects: 100% (741/741), done.
-remote: Total 284540 (delta 909), reused 963 (delta 641), pack-reused 283137 (from 1)
-Receiving objects: 100% (284540/284540), 263.01 MiB | 22.75 MiB/s, done.
-Resolving deltas: 100% (163364/163364), done.
-Cloning into '/workspaces/2024/gem5-resources'...
-remote: Enumerating objects: 24775, done.
-remote: Counting objects: 100% (617/617), done.
-remote: Compressing objects: 100% (248/248), done.
-remote: Total 24775 (delta 469), reused 369 (delta 369), pack-reused 24158 (from 1)
-Receiving objects: 100% (24775/24775), 48.15 MiB | 14.22 MiB/s, done.
-Resolving deltas: 100% (10877/10877), done.
+Cloning into '/workspaces/2025/gem5'...
+remote: Enumerating objects: 295271, done.
+remote: Counting objects: 100% (604/604), done.
+remote: Compressing objects: 100% (329/329), done.
+remote: Total 295271 (delta 460), reused 275 (delta 275), pack-reused 294667 (from 3)
+Receiving objects: 100% (295271/295271), 171.33 MiB | 5.20 MiB/s, done.
+Resolving deltas: 100% (225064/225064), done.
+Cloning into '/workspaces/2025/gem5-resources'...
+remote: Enumerating objects: 25042, done.
+remote: Counting objects: 100% (743/743), done.
+remote: Compressing objects: 100% (338/338), done.
+remote: Total 25042 (delta 565), reused 405 (delta 405), pack-reused 24299 (from 3)
+Receiving objects: 100% (25042/25042), 48.31 MiB | 8.79 MiB/s, done.
+Resolving deltas: 100% (11005/11005), done.
 Submodule path 'gem5': checked out 'bb418d41eb6d87c0a0591869097005c16420c6aa'
 Submodule path 'gem5-resources': checked out '6734bb4940dd90f3b7c0349eedeefcf3ee405938'
 
-real    3m39.695s
-user    0m32.154s
-sys     0m14.243s
-root@codespaces-ae14be:/workspaces/2024#
+real    7m30.158s
+user    0m29.194s
+sys     0m21.414s
+root@EE6455-gem5:/workspaces/2025#
 ```
 
 ---
 
+## Build and Setup gem5 with MESI and CHI
+
+1. Copy the provided build configuration files:
+
+    ```sh
+    cp /workspaces/2025/gem5_build_opts/* /workspaces/2025/gem5/build_opts
+    ```
+
+2. Build gem5 with MESI and CHI protocols (this will take a while):
+
+    ```sh
+    cd /workspaces/2025/gem5
+    scons build/MESI/gem5.opt -j$(nproc)
+    scons build/CHI/gem5.opt -j$(nproc)
+    ```
+
+3. Create symbolic links so you can run them with simple commands:
+
+    ```sh
+    sudo ln -sf /workspaces/2025/gem5/build/MESI/gem5.opt /usr/local/bin/gem5-mesi
+    sudo ln -sf /workspaces/2025/gem5/build/CHI/gem5.opt /usr/local/bin/gem5
+    ```
+
+    **Note:** This will overwrite any existing `/usr/local/bin/gem5` or `/usr/local/bin/gem5-mesi`.  
+
+---
+
+
+4. Verify the builds:
+
+    Check the symbolic links:
+    ```sh
+    ls -l $(which gem5)
+    ls -l $(which gem5-mesi)
+    ```
+
+    Check the build-time configuration:
+    ```sh
+    gem5 -c "import m5; print(vars(m5.defines))"
+    gem5-mesi -c "import m5; print(vars(m5.defines))"
+    ```
+
+    These commands will print out the build-time configuration so you can confirm whether **Ruby**, **protocol**, and **ISA** settings are correct.
+
+
+---
+
+## Preserve downloaded workloads across container recreations
+
+By default, gem5 downloads resources (kernels, disk images, benchmarks) into `/root/.cache/gem5` inside the container.  
+If the container is deleted, these downloads will also be lost.  
+
+To avoid re-downloading large workloads every time, you can set an environment variable to redirect the resource cache to a persistent directory:
+
+```sh
+export GEM5_RESOURCE_DIR=/workspaces/resources
+```
+This way, when the container is removed and recreated, previously downloaded workloads will still be available.
+
+---
+
+
 ## Run a simulation using gem5
 
-Run this command:
+Run this command inside the container:
 
 ```sh
 time gem5-mesi --outdir=/workspaces/m5out/ \
-/workspaces/2024/materials/01-Introduction/02-getting-started/completed/basic.py
+/workspaces/2025/materials/01-Introduction/02-getting-started/completed/basic.py
 ```
 
-Expected outcome: The `X86DemoBoard` will be simulated using `x86-ubuntu-24.04-img` as a workload.
+Expected outcome:
+- The `X86DemoBoard` will be simulated using `x86-ubuntu-24.04-img` as the workload.
+
+- On first run, gem5 will automatically download required resources:
+    - `x86-linux-kernel-5.4.0-105-generic`
+    - `x86-ubuntu-24.04-img` (~4.9 GB , takes some time to download and decompress)
+
+Note: Depending on your network speed, downloading and unpacking `x86-ubuntu-24.04-img` may take several minutes.
+
+---
+
 
 ```sh
-root@codespaces-ae14be:/workspaces/2024# time gem5-mesi --outdir=/workspaces/m5out/ \
-> /workspaces/2024/materials/01-Introduction/02-getting-started/completed/basic.py
+root@EE6455-gem5:/workspaces/2025# time gem5-mesi --outdir=/workspaces/m5out/ \
+/workspaces/2025/materials/01-Introduction/02-getting-started/completed/basic.py
 gem5 Simulator System.  https://www.gem5.org
 gem5 is copyrighted software; use the --copyright option for details.
 
 gem5 version 24.0.0.0
 gem5 compiled Jul 25 2024 18:47:27
-gem5 started Sep  8 2024 12:45:46
-gem5 executing on codespaces-ae14be, pid 13
-command line: gem5-mesi --outdir=/workspaces/m5out/ /workspaces/2024/materials/01-Introduction/02-getting-started/completed/basic.py
+gem5 started Aug 21 2025 09:19:18
+gem5 executing on EE6455-gem5, pid 14
+command line: gem5-mesi --outdir=/workspaces/m5out/ /workspaces/2025/materials/01-Introduction/02-getting-started/completed/basic.py
 
 warn: The X86DemoBoard is solely for demonstration purposes. This board is not known to be be representative of any real-world system. Use with caution.
 info: Using default config
@@ -296,17 +363,28 @@ src/sim/simulate.cc:199: info: Entering event queue @ 0.  Starting simulation...
 src/mem/ruby/system/Sequencer.cc:680: warn: Replacement policy updates recently became the responsibility of SLICC state machines. Make sure to setMRU() near callbacks in .sm files!
 build/ALL/arch/x86/generated/exec-ns.cc.inc:27: warn: instruction 'fninit' unimplemented
 
-real    1m57.553s
-user    0m39.148s
-sys     0m11.054s
-root@codespaces-ae14be:/workspaces/2024#
+real    42m27.091s
+user    0m38.201s
+sys     0m16.827s
+root@EE6455-gem5:/workspaces/2025#
 ```
 
 ---
 
-## Retrieve the simulation statistics on Windows
+## Retrieve the simulation statistics
 
-For Windows users, open `$HOME\workspaces\m5out\stats.txt` using a text editor.
+- On macOS
+
+    After the simulation finishes, open `~\workspaces\m5out\stats.txt` using a text editor. This file contains the detailed statistics generated by gem5.
+
+- Inside the container
+
+    You can also view the file directly inside the running container, for example by scrolling through the whole file:
+    ```
+    root@EE6455-gem5:/workspaces/2025# less /workspaces/m5out/stats.txt
+    ```
+
+---
 
 Expected outcome: The first few lines will resemble this:
 
@@ -332,9 +410,13 @@ board.cache_hierarchy.ruby_system.delayHistogram::stdev     2.687016            
 
 ---
 
-## Retrieve the simulation configuration on Windows
+## Retrieve the simulation configuration
 
-For Windows users, open `$HOME\workspaces\m5out\config.ini` using a text editor.
+- On macOS: open `~\workspaces\m5out\config.ini` using a text editor.
+- Inside the container:
+    ```
+    less /workspaces/m5out/config.ini
+    ```
 
 Expected outcome: The first few lines will resemble this:
 
@@ -348,6 +430,11 @@ eventq_index=0
 exit_on_work_items=true
 init_param=0
 m5ops_base=4294901760
+```
+
+---
+
+```sh
 mem_mode=timing
 mem_ranges=0:2147483648 3221225472:3222274048
 memories=board.memory.mem_ctrl.dram
