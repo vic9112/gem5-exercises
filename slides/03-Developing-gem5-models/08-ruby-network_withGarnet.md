@@ -35,7 +35,7 @@ Specified in the Python configuration with how routers/switches are connected
 - Simple: Fast, can only change link bandwidth/latency
 - Garnet: Detailed model for routers, flow control, and link architecture
 
-First we'll create a new topology (a ring). Since Garnet is more complex and simulations take longer, we will not use it in this chapter.
+First we'll create a new topology (a ring) and then we'll extend it to use Garnet.
 
 ---
 
@@ -300,3 +300,129 @@ board.processor.cores1.generator.readBW  2472807299.127889
 board.processor.cores2.generator.readBW  2414887877.684990
 board.processor.cores3.generator.readBW  2504614981.400951
 ```
+
+---
+
+<!-- _class: start -->
+
+## Garnet
+
+---
+
+<!-- _class: two-col -->
+
+## Simple vs Garnet
+
+### Router microarchitecture
+
+- Switch: Simple network
+  - Router latency
+  - Number of virtual channels
+- Garnet Router: Garnet network
+  - Number of virtual channels
+  - Number of virtual networks
+  - Size of flits (flow control units)
+
+### Link microarchitecture
+
+- Simple network:
+  - Just specifies the "bandwidth factor"
+- Garnet network:
+  - Separate links for data link and flow control links: Network and credit links
+  - Supports clock domain crossing
+  - Serialization and deserialization
+  - Width of the link
+
+---
+
+## Routing
+
+- Table-based Routing
+  - Shortest path
+  - Chooses the route with minimum number of link traversals
+  - Link weight  impacts routing
+- Custom Routing algorithms
+
+---
+
+## Garnet Extensions
+
+- Clock domain crossings
+  - If the external and internal links operating at a different frequency this should be enabled for the `GarnetExtLink`
+  - If two internal links have different frequencies, this should be enabled for the `GarnetIntLink`
+- Serialization and deserialization
+  - This is required if the external link has a different flit size than the internal link for the `GarnetExtLink`
+  - This is required if two internal links have a different flit sizes for the `GarnetIntLink`
+- Credit links and bridges for clock domains are automatically created
+
+---
+
+## Example?
+
+... Unfortunately, this isn't working. But I have a hack...
+
+There is definitely a buffer filling up somewhere that's causing a deadlock.
+
+The problem is I'm not sure if it's in the network, the protocol, or something else.
+
+So it goes, when using Ruby and Garnet!
+
+---
+
+## Changes for Garnet
+
+1. Make a copy of `ring.py`
+
+```sh
+cp ring.py ring_garnet.py
+```
+
+2. Change `hierarchy.py` to use `ring_garnet` and also remove the following line
+
+```diff
+-     self.ruby_system.network.setup_buffers()
+```
+
+3. Make the following substitutions in `ring_garnet.py`
+
+- `SimpleNetwork` -> `GarnetNetwork`
+- `SimpleExtLink` -> `GarnetExtLink`
+- `SimpleIntLink` -> `GarnetIntLink`
+
+---
+
+## One more change (and a hack)
+
+Also add the following to `Ring.connectControllers`
+
+```python
+self.netifs = [GarnetNetworkInterface(id=i) \
+            for (i,n) in enumerate(self.ext_links)]
+```
+
+Add the following to the constructor to hack around the deadlock.
+
+```python
+# There's definitely something wrong with something if I have to
+# do this to get it to work.
+self.ni_flit_size = 64
+self.vcs_per_vnet = 16
+```
+
+---
+
+## Now, run the test again!
+
+```sh
+gem5 run-test.py
+```
+
+```text
+board.processor.cores0.generator.readBW  3248115023.780479
+board.processor.cores1.generator.readBW  3149747416.759070
+board.processor.cores2.generator.readBW  3317362747.135825
+board.processor.cores3.generator.readBW  3113523561.473372
+```
+
+Notice: It takes a lot longer to simulate with Garnet than it does with `SimpleNetwork`.
+More fidelity means longer simulation!
