@@ -94,7 +94,8 @@ Expected outcome: A terminal emulator will open.
 For macOS users, run this command:
 
 ```sh
-docker container run --interactive --tty \
+docker container run -it \
+--name ee6455-gem5 \
 --volume ~/workspaces/:/workspaces/ \
 --workdir /workspaces/2025/ \
 --hostname EE6455-gem5 \
