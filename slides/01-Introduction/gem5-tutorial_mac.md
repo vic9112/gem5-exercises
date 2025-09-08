@@ -105,7 +105,7 @@ ghcr.io/gem5/devcontainer:v25-0
 Expected outcome: An interactive TTY will indicate its readiness to accept commands.
 
 ```sh
-root@codespaces-ae14be:/workspaces/2025#
+root@EE6455-gem5:/workspaces/2025#
 ```
 
 Alternative outcome: A newer image will be downloaded before the interactive TTY displays the username, hostname, and working directory.
@@ -153,9 +153,15 @@ In several chapters of the gem5 bootcamp, **KVM** acceleration is used to speed 
 - **Linux Host OS**
 If your CPU/BIOS supports virtualization (Intel VT-x or AMD-V) and `/dev/kvm` is available, you can pass it into the container with `--device /dev/kvm`.
 
+**Not Supported Host OS:**
 
 - **Windows Home Edition**
 Hyper-V and nested virtualization are not supported. In this case, KVM cannot be used and simulations will run **without hardware acceleration**, which will be significantly slower.
+
+- **macOS (Intel & Apple Silicon)**  
+    macOS does not expose `/dev/kvm` to Docker. Even on Apple Silicon (M1/M2/M3/M4), KVM cannot be used inside containers.  
+    Simulations must therefore run **without hardware acceleration**, which will be much slower.
+
 
 **Important:** KVM requires the host ISA to match the guest ISA:
 - x86 host → can accelerate x86 guest (e.g., Ubuntu x86 FS workloads)  
@@ -259,9 +265,20 @@ root@EE6455-gem5:/workspaces/2025#
 
     ```sh
     cd /workspaces/2025/gem5
-    scons build/MESI/gem5.opt -j$(nproc)
-    scons build/CHI/gem5.opt -j$(nproc)
+    scons build/MESI/gem5.opt -j6
+    scons build/CHI/gem5.opt -j6
     ```
+
+**Why `-j6` instead of `-j$(nproc)`?**  
+On macOS, using all available cores (`-j$(nproc)`) may cause build errors due to memory limits, such as:  
+```sh
+{standard input}: Error: open CFI at the end of file; missing .cfi_endproc directive
+g++: fatal error: Killed signal terminated program cc1plus
+```
+
+---
+
+Limiting jobs to `-j6` helps avoid this issue while still keeping parallel compilation.
 
 3. Create symbolic links so you can run them with simple commands:
 
@@ -272,24 +289,24 @@ root@EE6455-gem5:/workspaces/2025#
 
     **Note:** This will overwrite any existing `/usr/local/bin/gem5` or `/usr/local/bin/gem5-mesi`.  
 
----
-
 
 4. Verify the builds:
 
-    Check the symbolic links:
-    ```sh
-    ls -l $(which gem5)
-    ls -l $(which gem5-mesi)
-    ```
+Check the symbolic links:
+```sh
+ls -l $(which gem5)
+ls -l $(which gem5-mesi)
+```
 
-    Check the build-time configuration:
-    ```sh
-    gem5 -c "import m5; print(vars(m5.defines))"
-    gem5-mesi -c "import m5; print(vars(m5.defines))"
-    ```
+---
 
-    These commands will print out the build-time configuration so you can confirm whether **Ruby**, **protocol**, and **ISA** settings are correct.
+Check the build-time configuration:
+```sh
+gem5 -c "import m5; print(vars(m5.defines))"
+gem5-mesi -c "import m5; print(vars(m5.defines))"
+```
+
+These commands will print out the build-time configuration so you can confirm whether **Ruby**, **protocol**, and **ISA** settings are correct.
 
 
 ---

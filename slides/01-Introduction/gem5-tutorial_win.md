@@ -145,10 +145,8 @@ PS C:\Users\user>
 <!-- _class: two-col -->
 
 ## Run a container in PowerShell
-
-**For Windows Pro / Enterprise (with Hyper-V and Nested Virtualization enabled):**  
-> If you are on **Windows Pro/Enterprise**, enable **Hyper-V** and **Nested Virtualization** so that **KVM** can be passed through into the container.
-
+**For Windows Pro / Enterprise:**  
+> If you are on **Windows Pro/Enterprise**, enable **Hyper-V** and **Nested Virtualization** so that **KVM** can be passed through into the container. *(Computers in 219 are available for use)*
 ```sh
 docker run -it `
 --device /dev/kvm `
@@ -160,8 +158,8 @@ ghcr.io/gem5/devcontainer:v25-0
 ```
 
 
-**For Windows Home (no Hyper-V):**
-> If you are using **Windows Home edition**, Hyper-V and nested virtualization are not available.
+**For Windows Home:**
+> If you are using **Windows Home edition**, **Hyper-V** and **nested virtualization** are not available.
 In this case, **do not add** `--device /dev/kvm`, since **KVM** passthrough will not work.
 
 ```sh
@@ -229,9 +227,15 @@ In several chapters of the gem5 bootcamp, **KVM** acceleration is used to speed 
 - **Linux Host OS**
 If your CPU/BIOS supports virtualization (Intel VT-x or AMD-V) and `/dev/kvm` is available, you can pass it into the container with `--device /dev/kvm`.
 
+**Not Supported Host OS:**
 
 - **Windows Home Edition**
 Hyper-V and nested virtualization are not supported. In this case, KVM cannot be used and simulations will run **without hardware acceleration**, which will be significantly slower.
+
+- **macOS (Intel & Apple Silicon)**  
+    macOS does not expose `/dev/kvm` to Docker. Even on Apple Silicon (M1/M2/M3/M4), KVM cannot be used inside containers.  
+    Simulations must therefore run **without hardware acceleration**, which will be much slower.
+
 
 **Important:** KVM requires the host ISA to match the guest ISA:
 - x86 host → can accelerate x86 guest (e.g., Ubuntu x86 FS workloads)  

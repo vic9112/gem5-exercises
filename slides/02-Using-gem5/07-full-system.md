@@ -78,8 +78,8 @@ Depending on your host machine’s capabilities (whether KVM is available and wh
 - **If your host machine is ARM and supports KVM, and you want to simulate ARM ISA**:  
   Choose -> `arm-fs-kvm-run.py`
 
-- **If your host is x86 but does not support KVM acceleration**  
-  (e.g., Windows Home Edition, or KVM not enabled in BIOS):  
+- **If your host does not support KVM acceleration**  
+  (e.g., Windows Home Edition, macOS, or KVM not enabled in BIOS):  
   Choose -> `x86-fs-run.py` (x86 simulation without KVM, much slower)
 
 ---
@@ -208,7 +208,7 @@ To make it easier to run from anywhere, add the path to your environment:
 export PATH=$PATH:/workspaces/2025/gem5/util/term
 ```
 
-You can also add this line to your ~/.bashrc so it will be loaded automatically every time you open a new shell:
+You can also add this line to your `~/.bashrc` so it will be loaded automatically every time you open a new shell:
 ```
 echo 'export PATH=$PATH:/workspaces/2025/gem5/util/term' >> ~/.bashrc
 source ~/.bashrc
@@ -229,7 +229,7 @@ Depending on your host and ISA support, use the appropriate command:
     gem5 x86-fs-kvm-run.py
     ```
 
-- **x86 without KVM**
+- **without KVM**
     ```bash
     gem5 x86-fs-run.py
     ```
