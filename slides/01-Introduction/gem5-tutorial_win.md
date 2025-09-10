@@ -21,14 +21,14 @@ References:
 
 ## Environment
 
-The steps outlined in this tutorial have been tested on the computers located in Delta 219.
+The steps outlined in this tutorial have been tested on the computers located in **Delta Building, Room 219**.
 These computers are equipped with:
 
 - CPU: 13th Gen Intel(R) Core(TM) i5-13500
 - RAM: 16 GB
 - SSD: 954 GB
 
-Docker Desktop is pre-installed.
+**Docker Desktop**, **WSL**, **Hyper-V**, **KVM** are pre-installed.
 
 ---
 
@@ -146,7 +146,7 @@ PS C:\Users\user>
 
 ## Run a container in PowerShell
 **For Windows Pro / Enterprise:**  
-> If you are on **Windows Pro/Enterprise**, enable **Hyper-V** and **Nested Virtualization** so that **KVM** can be passed through into the container. *(Computers in 219 are available for use)*
+> If you are on **Windows Pro/Enterprise**, enable **Hyper-V** and **Nested Virtualization** so that **KVM** can be passed through into the container. **(Computers in 219 are available for use)**
 ```sh
 docker run -it `
 --device /dev/kvm `
@@ -212,6 +212,15 @@ root@EE6455-gem5:/workspaces/2025#
 In several chapters of the gem5 bootcamp, **KVM** acceleration is used to speed up simulation.
 - **Full-System (02-Using-gem5/07-full-system)** and **CHI Protocol (03-Developing-gem5-models/07-chi-protocol)** – these chapters use **KVM acceleration** to speed up full-system simulations (e.g., booting Ubuntu or running workloads with advanced systems).
 
+Workload Example (07-full-system):
+- `x86-ubuntu-24.04-boot-with-systemd`
+    - With KVM: ~1–2 minutes
+    - Without KVM: 3+ hours
+
+(continued on next page)
+
+---
+
 **Supported Host OS:**
 
 - **Windows Pro / Enterprise with Hyper-V enabled**
@@ -221,9 +230,6 @@ In several chapters of the gem5 bootcamp, **KVM** acceleration is used to speed 
     - [Enable Nested Virtualization](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/enable-nested-virtualization)
 
 
----
-
-
 - **Linux Host OS**
 If your CPU/BIOS supports virtualization (Intel VT-x or AMD-V) and `/dev/kvm` is available, you can pass it into the container with `--device /dev/kvm`.
 
@@ -231,6 +237,8 @@ If your CPU/BIOS supports virtualization (Intel VT-x or AMD-V) and `/dev/kvm` is
 
 - **Windows Home Edition**
 Hyper-V and nested virtualization are not supported. In this case, KVM cannot be used and simulations will run **without hardware acceleration**, which will be significantly slower.
+
+---
 
 - **macOS (Intel & Apple Silicon)**  
     macOS does not expose `/dev/kvm` to Docker. Even on Apple Silicon (M1/M2/M3/M4), KVM cannot be used inside containers.  
