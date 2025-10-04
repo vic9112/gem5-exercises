@@ -24,64 +24,60 @@ RATES     ?= 16GiB/s 32GiB/s
 READPCTS  ?= 50 100
 
 # Output log
-OUT_SINGLE ?= out_single
-OUT_DUAL   ?= out_dual
-OUT_CMP    ?= out_cmp
+OUT_SINGLE ?= single
+OUT_DUAL   ?= dual
+OUT_CMP    ?= cmp
 
 OUTCSV   ?= p3-summary.csv
 
-.PHONY: all p3_1 p3_2 compare parse clean clobber \
+.PHONY: all p3_1 p3_2 compare parse clean \
         p3_3_ddr4 p3_3_simple p3_3_bw p3_3_read
 
 all: p3_1 p3_2 compare parse
 
 # --- Required single/dual DDR4 experiments ---
 p3_1:  # single-channel DDR4-2400
-	@mkdir -p $(OUT_SINGLE)
-	$(GEM5) --outdir=$(OUT_SINGLE) $(SINGLE) -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE)
+	$(GEM5) --outdir=log/$(OUT_SINGLE) $(SINGLE) -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE)
 
 p3_2:  # dual-channel DDR4-2400 (uses NoCache inside p3_2.py)
-	@mkdir -p $(OUT_DUAL)
-	$(GEM5) --outdir=$(OUT_DUAL) $(DUAL) -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE)
+	$(GEM5) --outdir=log/$(OUT_DUAL) $(DUAL) -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE)
 
 # --- SimpleMemory vs DDR4 at SAME size/bandwidth (baseline) ---
 p3_3_ddr4:
-	@mkdir -p $(OUT_CMP)/ddr4
-	$(GEM5) --outdir=$(OUT_CMP)/ddr4 $(CMP) --mem ddr4 -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE)
+	$(GEM5) --outdir=log/$(OUT_CMP)_ddr4 $(CMP) --mem ddr4 -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE)
 
 p3_3_simple:
-	@mkdir -p $(OUT_CMP)/simple
-	$(GEM5) --outdir=$(OUT_CMP)/simple $(CMP) --mem simple -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE) \
+	$(GEM5) --outdir=log/$(OUT_CMP)_simple $(CMP) --mem simple -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE) \
 	        --simple-bw $(BW)
 
 # --- Parameter comparisons for Problem 3 (bandwidth & read%) ---
 # Sweep bandwidth: 16 vs 32 GiB/s for BOTH memories
 p3_3_bw:
 	@for b in $(RATES); do \
-	  od1=$(OUT_CMP)/ddr4_bw$$(echo $$b | tr -d '/');  mkdir -p $$od1; \
-	  od2=$(OUT_CMP)/simple_bw$$(echo $$b | tr -d '/'); mkdir -p $$od2; \
+	  od1=$(OUT_CMP)_ddr4_bw$$(echo $$b | tr -d '/');  \
+	  od2=$(OUT_CMP)_simple_bw$$(echo $$b | tr -d '/'); \
 	  echo "== DDR4 @ $$b r=$(READPCT) =="; \
-	  $(GEM5) --outdir=$$od1 $(CMP) --mem ddr4   -c $(GEN) -r $(READPCT) -b $$b --size $(SIZE); \
+	  $(GEM5) --outdir=log/$$od1 $(CMP) --mem ddr4   -c $(GEN) -r $(READPCT) -b $$b --size $(SIZE); \
 	  echo "== SIMPLE @ $$b r=$(READPCT) =="; \
-	  $(GEM5) --outdir=$$od2 $(CMP) --mem simple -c $(GEN) -r $(READPCT) -b $$b --size $(SIZE) --simple-bw $$b; \
+	  $(GEM5) --outdir=log/$$od2 $(CMP) --mem simple -c $(GEN) -r $(READPCT) -b $$b --size $(SIZE) --simple-bw $$b; \
 	done
 
 # Sweep read%: 50 vs 100 for BOTH memories
 p3_3_read:
 	@for p in $(READPCTS); do \
-	  od1=$(OUT_CMP)/ddr4_r$$p;  mkdir -p $$od1; \
-	  od2=$(OUT_CMP)/simple_r$$p; mkdir -p $$od2; \
+	  od1=$(OUT_CMP)_ddr4_r$$p; \
+	  od2=$(OUT_CMP)_simple_r$$p; \
 	  echo "== DDR4 @ $(BW) r=$$p =="; \
-	  $(GEM5) --outdir=$$od1 $(CMP) --mem ddr4   -c $(GEN) -r $$p -b $(BW) --size $(SIZE); \
+	  $(GEM5) --outdir=log/$$od1 $(CMP) --mem ddr4   -c $(GEN) -r $$p -b $(BW) --size $(SIZE); \
 	  echo "== SIMPLE @ $(BW) r=$$p =="; \
-	  $(GEM5) --outdir=$$od2 $(CMP) --mem simple -c $(GEN) -r $$p -b $(BW) --size $(SIZE) --simple-bw $(BW); \
+	  $(GEM5) --outdir=log/$$od2 $(CMP) --mem simple -c $(GEN) -r $$p -b $(BW) --size $(SIZE) --simple-bw $(BW); \
 	done
 
 compare: p3_3_ddr4 p3_3_simple p3_3_bw p3_3_read
 
 parse:
-	$(PYTHON) $(PARSER) --roots $(OUT_SINGLE) $(OUT_DUAL) $(OUT_CMP)/*  --out $(OUTCSV)
+	$(PYTHON) $(PARSER) --roots "log/*"  --out $(OUTCSV)
 
 clean:
 	@rm -f $(OUTCSV)
-	@rm -rf out_*
+	@rm -rf log

@@ -6,7 +6,7 @@
 import os, glob, csv
 from pathlib import Path
 
-OUT_GLOB = "./out_*"
+OUT_GLOB = "./log/*"
 STATS_FILE = "stats.txt"
 CSV_OUT = "results.csv"
 

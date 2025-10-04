@@ -16,22 +16,20 @@ PAR ?= parse.py
 CPU ?= timing
 
 # Outdirs
-OUT_SE ?= out_se_$(CPU)
-OUT_FS ?= out_fs_$(CPU)
+OUT_SE ?= se_$(CPU)
+OUT_FS ?= fs_$(CPU)
 
 CSV ?= p5-summary.csv
 
-.PHONY: all se fs parse clean clobber both cpus
+.PHONY: all se fs parse clean both cpus
 
 all: both parse
 
 se:
-	@mkdir -p $(OUT_SE)
-	$(GEM5) --outdir=$(OUT_SE) $(SE) --cpu $(CPU)
+	$(GEM5) --outdir=log/$(OUT_SE) $(SE) --cpu $(CPU)
 
 fs:
-	@mkdir -p $(OUT_FS)
-	$(GEM5) --outdir=$(OUT_FS) $(FS) --cpu $(CPU)
+	$(GEM5) --outdir=log/$(OUT_FS) $(FS) --cpu $(CPU)
 
 # Convenience: run both CPUs and parse
 both:
@@ -40,8 +38,8 @@ both:
 	@$(MAKE) parse
 
 parse:
-	$(PYTHON) $(PAR) --roots "$(OUT_SE)" "$(OUT_FS)" --out $(CSV)
+	$(PYTHON) $(PAR) --roots "log/*" --out $(CSV)
 
 clean:
 	@rm -f $(CSV)
-	@rm -rf out_*
+	@rm -rf log

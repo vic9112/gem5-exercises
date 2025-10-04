@@ -2,6 +2,7 @@
 **/m5out/
 **/checkpoint/
 **/out_*/
+**/log/
 
 # Jekyll stuff
 _site/
