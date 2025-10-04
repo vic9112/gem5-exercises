@@ -1,7 +1,12 @@
-# Problem 5 — SE vs FS with aligned ROI and same CPU model
+#////////////////////////////////////////////////////////
+# Design: Makefile for GEM5 simulation
+# Author: Kuan-Hsi(Vic) Chen
+# Email : s179038@gmail.com
+# Update: [2025/09/29]: Automatically sweep variables
+#////////////////////////////////////////////////////////
 
 PYTHON ?= python3
-GEM5   ?= gem5-mesi
+GEM5   ?= gem5
 
 SE  ?= p5_1/p5_1.py
 FS  ?= p5_2/p5_2.py

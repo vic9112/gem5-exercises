@@ -55,13 +55,11 @@ run-classic-assoc:
 	done
 
 # Convenience aggregate targets
-sweep: run-ruby-size run-classic-size
+sweep: run-ruby-size run-classic-size run-ruby-assoc run-classic-assoc
 
 parse:
 	$(PYTHON) $(PARSER) --roots $(OUT_RUBY) $(OUT_CLASSIC) --out $(CSV_OUT)
 
 clean:
 	@rm -f $(CSV_OUT)
-
-clobber: clean
 	@rm -rf $(OUT_RUBY) $(OUT_CLASSIC)

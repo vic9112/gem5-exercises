@@ -1,4 +1,9 @@
-# p4/makefile — Problem 4 (FS KVM fast-forward & CPU switch)
+#////////////////////////////////////////////////////////
+# Design: Makefile for GEM5 simulation
+# Author: Kuan-Hsi(Vic) Chen
+# Email : s179038@gmail.com
+# Update: [2025/09/29]: Automatically sweep variables
+#////////////////////////////////////////////////////////
 
 PYTHON ?= python3
 GEM5   ?= gem5

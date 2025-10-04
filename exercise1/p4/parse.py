@@ -197,16 +197,36 @@ def extract_row(blocks: List[Dict[str, Num]], outdir: Path) -> Dict[str, Optiona
     row["L1_total_MPKI"] = (((L1I_m or 0.0) + (L1D_m or 0.0)) * 1000.0 / simInsts) \
         if (simInsts and simInsts > 0) else None
 
-    # TLB miss rate (sum across cores; names vary slightly by tree)
-    itb_m = sum_matching(d, r"\.itb\.(?:misses|walk_misses|inst_misses)(::total)?$")
-    dtb_m = sum_matching(d, r"\.dtb\.(?:misses|walk_misses|data_misses)(::total)?$")
-    itb_a = sum_matching(d, r"\.itb\.(?:accesses|lookups|inst_lookups)(::total)?$")
-    dtb_a = sum_matching(d, r"\.dtb\.(?:accesses|lookups|data_lookups)(::total)?$")
-    tlb_m = (itb_m or 0.0) + (dtb_m or 0.0)
-    tlb_a = (itb_a or 0.0) + (dtb_a or 0.0)
-    row["TLB_accesses"] = tlb_a if tlb_a else None
-    row["TLB_misses"]   = tlb_m if tlb_m else None
-    row["TLB_miss_rate"] = (tlb_m / tlb_a) if (tlb_a and tlb_a > 0) else None
+    # ---- TLB miss rate (sum across cores; support both naming styles) ----
+    # Newer/FS stdlib style: ... .mmu.itb/dtb.(rdAccesses|wrAccesses|rdMisses|wrMisses)
+    itb_a_rw = sum_matching(d, r"\.mmu\.itb\.(?:rdAccesses|wrAccesses)(::total)?$")
+    dtb_a_rw = sum_matching(d, r"\.mmu\.dtb\.(?:rdAccesses|wrAccesses)(::total)?$")
+    itb_m_rw = sum_matching(d, r"\.mmu\.itb\.(?:rdMisses|wrMisses)(::total)?$")
+    dtb_m_rw = sum_matching(d, r"\.mmu\.dtb\.(?:rdMisses|wrMisses)(::total)?$")
+
+    # Legacy style: ... .itb/dtb.(accesses|lookups|misses|walk_misses|inst_misses)
+    itb_a_legacy = sum_matching(d, r"\.itb\.(?:accesses|lookups|inst_lookups)(::total)?$")
+    dtb_a_legacy = sum_matching(d, r"\.dtb\.(?:accesses|lookups|data_lookups)(::total)?$")
+    itb_m_legacy = sum_matching(d, r"\.itb\.(?:misses|walk_misses|inst_misses)(::total)?$")
+    dtb_m_legacy = sum_matching(d, r"\.dtb\.(?:misses|walk_misses|data_misses)(::total)?$")
+
+    # Prefer the newer mmu.* if present; else fall back to legacy names.
+    itb_a = itb_a_rw if itb_a_rw is not None else itb_a_legacy
+    dtb_a = dtb_a_rw if dtb_a_rw is not None else dtb_a_legacy
+    itb_m = itb_m_rw if itb_m_rw is not None else itb_m_legacy
+    dtb_m = dtb_m_rw if dtb_m_rw is not None else dtb_m_legacy
+
+    # Only blank the CSV fields if no keys matched at all; otherwise show 0.0
+    tlb_a = None
+    tlb_m = None
+    if itb_a is not None or dtb_a is not None:
+        tlb_a = (itb_a or 0.0) + (dtb_a or 0.0)
+    if itb_m is not None or dtb_m is not None:
+        tlb_m = (itb_m or 0.0) + (dtb_m or 0.0)
+
+    row["TLB_accesses"] = tlb_a
+    row["TLB_misses"]   = tlb_m
+    row["TLB_miss_rate"] = (tlb_m / tlb_a) if (tlb_a is not None and tlb_a > 0) else None
 
     return row
 
@@ -234,7 +254,8 @@ def main():
             f"{r['config']}: host_total={r.get('hostSeconds_total')}  "
             f"host_ROI={r.get('hostSeconds_ROI')}  "
             f"IPC={r.get('IPC')}  L1I={r.get('L1I_MPKI')}  "
-            f"L1D={r.get('L1D_MPKI')}  L2={r.get('L2_MPKI')}"
+            f"L1D={r.get('L1D_MPKI')}  L2={r.get('L2_MPKI')}  "
+            f"TLB_miss_rate={r.get('TLB_miss_rate')}"
         )
 
     hdr = [
