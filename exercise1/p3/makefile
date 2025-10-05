@@ -49,7 +49,7 @@ p3_3_simple:
 	$(GEM5) --outdir=log/$(OUT_CMP)_simple $(CMP) --mem simple -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE) \
 	        --simple-bw $(BW)
 
-# --- Parameter comparisons for bandwidth & read% ---
+# --- For bandwidth & read% comparison ---
 p3_3_bw:
 	@for b in $(RATES); do \
 	  od1=$(OUT_CMP)_ddr4_bw$$(echo $$b | tr -d '/');  \

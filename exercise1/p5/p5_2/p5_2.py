@@ -1,5 +1,5 @@
 """
-Problem 5 - FS mode: x86 Ubuntu boots and runs NPB IS (size S) with ROI markers.
+FS mode: x86 Ubuntu boots and runs NPB IS (size S) with ROI markers.
 Boots a Linux kernel using KVM, runs a simple workload, and then switches to a 
 Timing CPU at work begin and ends at the work end designation.
 
@@ -24,7 +24,7 @@ from m5 import stats as m5stats
 
 requires(isa_required=ISA.X86, kvm_required=True) # Since booting with KVM
 ap = argparse.ArgumentParser("Problem 5 FS mode with ROI")
-ap.add_argument("--cpu", choices=["timing","o3"], default="timing", help="CPU model (same as SE)")
+ap.add_argument("--cpu", choices=["timing","o3"], default="timing")
 ap.add_argument("--cores", type=int, default=1)
 args = ap.parse_args()
 

@@ -29,7 +29,6 @@ parser.add_argument("-r", "--read_percentage", type=int, default=80)
 parser.add_argument("-b", "--bandwidth", default="32GiB/s")
 parser.add_argument("--size", default="512MiB")
 
-# SimpleMemory device parameters (match device bw to generator unless overridden)
 parser.add_argument("--simple-latency", default="50ns")
 parser.add_argument("--simple-latency-var", default="10ns")
 parser.add_argument("--simple-bw", default=None)

@@ -57,10 +57,10 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--cpu", choices=["timing", "o3"], required=True)
 ap.add_argument("--cores", type=int, default=1)
 # vary one at a time
-ap.add_argument("--width", type=int, default=4,   help="issue width (O3)")
-ap.add_argument("--rob",   type=int, default=128, help="numROBEntries (O3)")
-ap.add_argument("--lq",    type=int, default=64,  help="LQEntries (O3)")
-ap.add_argument("--sq",    type=int, default=64,  help="SQEntries (O3)")
+ap.add_argument("--width", type=int, default=4)
+ap.add_argument("--rob",   type=int, default=128)
+ap.add_argument("--lq",    type=int, default=64)
+ap.add_argument("--sq",    type=int, default=64)
 args = ap.parse_args()
 
 cache_hierarchy = MESITwoLevelCacheHierarchy(

@@ -1,6 +1,5 @@
 """
 Problem 3 (part 2): Traffic generator -> Dual-channel DDR4-2400 (512 MiB).
-Defaults: RandomGenerator, read 80%, target 32 GiB/s.
 """
 
 import argparse

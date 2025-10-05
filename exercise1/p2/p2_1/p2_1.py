@@ -17,8 +17,8 @@ from gem5.simulate.simulator import Simulator
 
 # Parse arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("--l2-size", default="256kB", help="L2 size (e.g., 128kB, 256kB, 512kB, 1MB)")
-ap.add_argument("--l2-assoc", type=int, default=16, help="L2 associativity")
+ap.add_argument("--l2-size", default="256kB")
+ap.add_argument("--l2-assoc", type=int, default=16)
 args = ap.parse_args()
 
 cache_kwargs = dict(

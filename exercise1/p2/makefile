@@ -28,7 +28,7 @@ ASSOCS ?= 8 16 32
 
 all: sweep parse
 
-# ---- Ruby sweeps ----
+# ---- Ruby ----
 run-ruby-size:
 	@set -e; for s in $(SIZES); do \
 	  echo "== Ruby L2 size $$s =="; \
@@ -41,7 +41,7 @@ run-ruby-assoc:
 	  $(GEM5_MESI) --outdir=log/$(OUT_RUBY)_l2_a$$a $(RUBY_PY) --l2-assoc $$a; \
 	done
 
-# ---- Classic sweeps ----
+# ---- Classic ----
 run-classic-size:
 	@set -e; for s in $(SIZES); do \
 	  echo "== Classic L2 size $$s =="; \
@@ -54,7 +54,6 @@ run-classic-assoc:
 	  $(GEM5) --outdir=log/$(OUT_CLASSIC)_l2_a$$a $(CLASSIC_PY) --l2-assoc $$a; \
 	done
 
-# Convenience aggregate targets
 sweep: run-ruby-size run-classic-size run-ruby-assoc run-classic-assoc
 
 parse:

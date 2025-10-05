@@ -9,7 +9,7 @@ GEM5   ?= gem5-mesi
 PYTHON ?= python3
 RUNPY  ?= p1.py
 
-# --- sweeps parameters ---
+# --- sweep parameters ---
 ISSUES ?= 2 4 6
 ROBS   ?= 64 128 192
 LQS    ?= 16 32 64
@@ -35,7 +35,7 @@ $(BASE_T):
 $(BASE_O3):
 	$(GEM5) --outdir=log/$(BASE_O3) $(RUNPY) --cpu o3
 
-# vary each knob separately
+# vary each separately
 o3_issue%:
 	$(GEM5) --outdir=log/$@ $(RUNPY) --cpu o3 --width $*
 

@@ -1,5 +1,5 @@
 """
-Problem 5 — SE mode for x86 NPB IS (size S).
+SE mode for x86 NPB IS (size S).
 Uses the same CPU model you choose for FS ROI (via --cpu timing|o3).
 Do not need to add an ROI handler in SE. The SE workload 
 (x86-npb-is-size-s-run) is already just the application; 
@@ -23,7 +23,7 @@ from gem5.resources.resource import obtain_resource
 from gem5.simulate.simulator import Simulator
 
 ap = argparse.ArgumentParser("Problem 5 SE mode")
-ap.add_argument("--cpu", choices=["timing","o3"], default="timing", help="CPU model (same as FS ROI)")
+ap.add_argument("--cpu", choices=["timing","o3"], default="timing")
 args = ap.parse_args()
 
 cpu_type = CPUTypes.TIMING if args.cpu == "timing" else CPUTypes.O3

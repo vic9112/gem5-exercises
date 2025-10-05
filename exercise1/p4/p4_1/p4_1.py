@@ -1,6 +1,6 @@
 """
-p4_1.py — FS X86: KVM fast-forward, switch to detailed CPU at 2nd m5 exit,
-stop at 3rd. Stats are dump+reset at the 2nd exit so final stats.txt is ROI-only.
+FS X86: KVM fast-forward, switch to detailed CPU at 2nd m5 exit, stop at 3rd.
+Stats are dump+reset at the 2nd exit so final stats.txt is ROI-only.
 """
 
 import argparse
@@ -22,9 +22,8 @@ from gem5.simulate.simulator import Simulator
 from m5 import stats as m5stats
 
 ap = argparse.ArgumentParser("Problem 4: KVM → switch at 2nd m5 exit")
-ap.add_argument("--detailed", choices=["timing", "o3"], default="o3",
-                help="Detailed CPU to switch to after boot (default: o3)")
-ap.add_argument("--cores", type=int, default=2, help="core count (default 2)")
+ap.add_argument("--detailed", choices=["timing", "o3"], default="o3")
+ap.add_argument("--cores", type=int, default=2)
 args = ap.parse_args()
 
 cache_hierarchy = PrivateL1PrivateL2WalkCacheHierarchy(

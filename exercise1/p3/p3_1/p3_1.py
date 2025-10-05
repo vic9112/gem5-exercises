@@ -1,6 +1,5 @@
 """
 Problem 3 (part 1): Traffic generator -> Single-channel DDR4-2400 (512 MiB).
-Defaults match the assignment: RandomGenerator, read 80%, target 32 GiB/s.
 """
 
 import argparse

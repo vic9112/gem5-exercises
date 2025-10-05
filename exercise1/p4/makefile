@@ -22,15 +22,15 @@ CSV_OUT ?= p4-summary.csv
 
 all: p4_1_timing p4_1_o3 p4_2_kvm parse
 
-# Method 1: KVM → switch to TimingSimpleCPU at 2nd m5 exit
+# Method 1: KVM switch to TimingSimpleCPU at 2nd m5 exit
 p4_1_timing:
 	$(GEM5) --outdir=log/$(OUT_P41_TIMING) $(P41) --detailed timing
 
-# Method 1: KVM → switch to X86O3CPU at 2nd m5 exit
+# Method 1: KVM switch to X86O3CPU at 2nd m5 exit
 p4_1_o3:
 	$(GEM5) --outdir=log/$(OUT_P41_O3) $(P41) --detailed o3
 
-# Method 2: KVM only (no switch)
+# Method 2: KVM only
 p4_2_kvm:
 	$(GEM5) --outdir=log/$(OUT_P42_KVM) $(P42)
 

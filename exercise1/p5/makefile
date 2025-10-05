@@ -12,10 +12,9 @@ SE  ?= p5_1/p5_1.py
 FS  ?= p5_2/p5_2.py
 PAR ?= parse.py
 
-# Choose CPU: timing | o3
+# Choose CPU
 CPU ?= timing
 
-# Outdirs
 OUT_SE ?= se_$(CPU)
 OUT_FS ?= fs_$(CPU)
 
@@ -31,7 +30,7 @@ se:
 fs:
 	$(GEM5) --outdir=log/$(OUT_FS) $(FS) --cpu $(CPU)
 
-# Convenience: run both CPUs and parse
+# run both CPUs and parse
 both:
 	@$(MAKE) CPU=timing  se fs
 	@$(MAKE) CPU=o3      se fs

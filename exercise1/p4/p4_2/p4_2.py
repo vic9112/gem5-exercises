@@ -1,6 +1,6 @@
 """
-p4_2.py — FS X86: KVM only, no CPU switch.
-We still dump+reset at the 2nd m5 exit so the final stats are ROI-only,
+FS X86: KVM only, no CPU switch.
+Still dump+reset at the 2nd m5 exit so the final stats are ROI-only,
 and exit on the 3rd m5 exit.
 """
 
