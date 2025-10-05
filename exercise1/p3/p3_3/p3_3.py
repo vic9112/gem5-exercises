@@ -37,21 +37,16 @@ def generator_factory(generator_class: str, rd_perc: int, rate, mem_size: Memory
 
 
 parser = argparse.ArgumentParser(description="SimpleMemory vs DDR4 (same size/bandwidth).")
-parser.add_argument("--mem", choices=["ddr4", "simple"], default="ddr4",
-                    help="Memory device to run (default ddr4)")
-parser.add_argument("-c", "--generator_class", default="RandomGenerator",
-                    help="LinearGenerator or RandomGenerator (default RandomGenerator)")
-parser.add_argument("-r", "--read_percentage", type=int, default=80,
-                    help="Read ops percentage (default 80)")
-parser.add_argument("-b", "--bandwidth", default="32GiB/s",
-                    help="Generator request rate (default 32GiB/s)")
-parser.add_argument("--size", default="512MiB", help="Memory size (default 512MiB)")
+parser.add_argument("--mem", choices=["ddr4", "simple"], default="ddr4")
+parser.add_argument("-c", "--generator_class", default="RandomGenerator")
+parser.add_argument("-r", "--read_percentage", type=int, default=80)
+parser.add_argument("-b", "--bandwidth", default="32GiB/s")
+parser.add_argument("--size", default="512MiB")
 
 # SimpleMemory device parameters (match device bw to generator unless overridden)
-parser.add_argument("--simple-latency", default="50ns", help="SimpleMemory base latency")
-parser.add_argument("--simple-latency-var", default="10ns", help="SimpleMemory latency variation")
-parser.add_argument("--simple-bw", default=None,
-                    help="SimpleMemory device bandwidth (default: match --bandwidth)")
+parser.add_argument("--simple-latency", default="50ns")
+parser.add_argument("--simple-latency-var", default="10ns")
+parser.add_argument("--simple-bw", default=None)
 
 args = parser.parse_args()
 

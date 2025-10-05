@@ -9,7 +9,7 @@ GEM5   ?= gem5-mesi
 PYTHON ?= python3
 RUNPY  ?= p1.py
 
-# --- sweeps (change ONE knob at a time) ---
+# --- sweeps parameters ---
 ISSUES ?= 2 4 6
 ROBS   ?= 64 128 192
 LQS    ?= 16 32 64
@@ -27,7 +27,7 @@ all: sweep parse
 
 sweep: $(BASE_T) $(BASE_O3) $(O3_I) $(O3_R) $(O3_LQ) $(O3_SQ)
 
-# Baseline: TimingSimpleCPU (no micro-arch knobs)
+# TimingSimpleCPU
 $(BASE_T):
 	$(GEM5) --outdir=log/$(BASE_T) $(RUNPY) --cpu timing
 
@@ -35,7 +35,7 @@ $(BASE_T):
 $(BASE_O3):
 	$(GEM5) --outdir=log/$(BASE_O3) $(RUNPY) --cpu o3
 
-# O3: vary each knob separately
+# vary each knob separately
 o3_issue%:
 	$(GEM5) --outdir=log/$@ $(RUNPY) --cpu o3 --width $*
 

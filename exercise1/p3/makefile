@@ -13,17 +13,16 @@ DUAL   ?= p3_2/p3_2.py
 CMP    ?= p3_3/p3_3.py
 PARSER ?= parse.py
 
-# Baseline assignment: RandomGenerator, r=80, 32 GiB/s, 512 MiB
+# RandomGenerator, r=80, 32 GiB/s, 512 MiB
 GEN      ?= RandomGenerator
 READPCT  ?= 80
 BW       ?= 32GiB/s
 SIZE     ?= 512MiB
 
-# Comparison sets (bandwidth & read% sweeps) for p3_3
+# bandwidth & read% sweeps for p3_3
 RATES     ?= 16GiB/s 32GiB/s
 READPCTS  ?= 50 100
 
-# Output log
 OUT_SINGLE ?= single
 OUT_DUAL   ?= dual
 OUT_CMP    ?= cmp
@@ -35,14 +34,14 @@ OUTCSV   ?= p3-summary.csv
 
 all: p3_1 p3_2 compare parse
 
-# --- Required single/dual DDR4 experiments ---
+# --- single/dual DDR4 ---
 p3_1:  # single-channel DDR4-2400
 	$(GEM5) --outdir=log/$(OUT_SINGLE) $(SINGLE) -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE)
 
-p3_2:  # dual-channel DDR4-2400 (uses NoCache inside p3_2.py)
+p3_2:  # dual-channel DDR4-2400
 	$(GEM5) --outdir=log/$(OUT_DUAL) $(DUAL) -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE)
 
-# --- SimpleMemory vs DDR4 at SAME size/bandwidth (baseline) ---
+# --- SimpleMemory vs DDR4 ---
 p3_3_ddr4:
 	$(GEM5) --outdir=log/$(OUT_CMP)_ddr4 $(CMP) --mem ddr4 -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE)
 
@@ -50,8 +49,7 @@ p3_3_simple:
 	$(GEM5) --outdir=log/$(OUT_CMP)_simple $(CMP) --mem simple -c $(GEN) -r $(READPCT) -b $(BW) --size $(SIZE) \
 	        --simple-bw $(BW)
 
-# --- Parameter comparisons for Problem 3 (bandwidth & read%) ---
-# Sweep bandwidth: 16 vs 32 GiB/s for BOTH memories
+# --- Parameter comparisons for bandwidth & read% ---
 p3_3_bw:
 	@for b in $(RATES); do \
 	  od1=$(OUT_CMP)_ddr4_bw$$(echo $$b | tr -d '/');  \
@@ -62,7 +60,6 @@ p3_3_bw:
 	  $(GEM5) --outdir=log/$$od2 $(CMP) --mem simple -c $(GEN) -r $(READPCT) -b $$b --size $(SIZE) --simple-bw $$b; \
 	done
 
-# Sweep read%: 50 vs 100 for BOTH memories
 p3_3_read:
 	@for p in $(READPCTS); do \
 	  od1=$(OUT_CMP)_ddr4_r$$p; \

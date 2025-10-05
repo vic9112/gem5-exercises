@@ -24,13 +24,10 @@ def generator_factory(generator_class: str, rd_perc: int, rate, mem_size: Memory
         raise ValueError(f"Unknown generator class {generator_class}")
 
 parser = argparse.ArgumentParser(description="Dual-channel DDR4-2400 traffic run.")
-parser.add_argument("-c", "--generator_class", default="RandomGenerator",
-                    help="LinearGenerator or RandomGenerator (default RandomGenerator)")
-parser.add_argument("-r", "--read_percentage", type=int, default=80,
-                    help="Read ops percentage (default 80)")
-parser.add_argument("-b", "--bandwidth", default="32GiB/s",
-                    help="Generator request rate (default 32GiB/s)")
-parser.add_argument("--size", default="512MiB", help="Total memory size (default 512MiB)")
+parser.add_argument("-c", "--generator_class", default="RandomGenerator")
+parser.add_argument("-r", "--read_percentage", type=int, default=80)
+parser.add_argument("-b", "--bandwidth", default="32GiB/s")
+parser.add_argument("--size", default="512MiB")
 args = parser.parse_args()
 
 # Memory: dual-channel DDR4-2400 (total size = 512 MiB by default)

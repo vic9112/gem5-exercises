@@ -93,8 +93,6 @@ def parse_one(stats_path: Path) -> Dict[str, Number]:
 
     total_bytes = (br or 0.0) + (bw or 0.0)
     thru_Bps = (total_bytes / simsec) if (simsec and simsec > 0) else None
-    GiBps = (thru_Bps / (1024**3)) if thru_Bps else None
-    MiBps = (thru_Bps / (1024**2)) if thru_Bps else None
 
     lat_ticks, lat_ns = find_weighted_avg_mem_lat(d)
 
@@ -107,8 +105,6 @@ def parse_one(stats_path: Path) -> Dict[str, Number]:
         "bytesWritten": bw,
         "bytesTotal": total_bytes,
         "throughput_Bps": thru_Bps,
-        "throughput_MiBps": MiBps,
-        "throughput_GiBps": GiBps,
         "avgMemAccLat_ticks": lat_ticks,
         "avgMemAccLat_ns": lat_ns,
     }
@@ -128,21 +124,18 @@ def main():
 
     # Preview
     for r in rows:
-        g = r["throughput_GiBps"]
+        g = r["throughput_Bps"]
         a = r["avgMemAccLat_ns"]
         if g is not None:
-            #print(f"{r['config']}: {g:.3f} GiB/s, avgMemAccLat={a:.3f} ns" if a is not None
-            #      else f"{r['config']}: {g:.3f} GiB/s, avgMemAccLat=N/A")
-            print(f"{r['config']:<25}: {g:.3f} GiB/s, avgMemAccLat={a:.3f} ns" if a is not None
-                else f"{r['config']:<25}: {g:.3f} GiB/s, avgMemAccLat=N/A")
+            print(f"{r['config']:<25}: {g:.3f} B/s, avgMemAccLat={a:.3f} ns" if a is not None
+                else f"{r['config']:<25}: {g:.3f} B/s, avgMemAccLat=N/A")
         else:
             print(f"{r['config']}: (incomplete)")
 
     # CSV
     hdr = ["config","outdir","simSeconds","hostSeconds",
            "bytesRead","bytesWritten","bytesTotal",
-           "throughput_Bps","throughput_MiBps","throughput_GiBps",
-           "avgMemAccLat_ticks","avgMemAccLat_ns"]
+           "throughput_Bps","avgMemAccLat_ticks","avgMemAccLat_ns"]
     with open(args.out, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=hdr)
         w.writeheader()

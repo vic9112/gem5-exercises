@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-parse.py — Unified parser for gem5 stats.txt (Ruby or Classic caches)
+Problem 2 parse.py — Unified parser for gem5 stats.txt (Ruby or Classic caches)
 
 Outputs per stats.txt:
   system, config, outdir

@@ -35,19 +35,15 @@ class MyOutOfOrderCore(BaseCPUCore):
     def __init__(self, width: int, rob_size: int, lq: int, sq: int):
         super().__init__(X86O3CPU(), ISA.X86)
 
-        # Keep a small stability cushion for Ruby + O3
-        self.core.forwardComSize = 20
-        self.core.backComSize    = 20
-
-        # one-at-a-time sweeps
         self.core.issueWidth    = width
         self.core.numROBEntries = rob_size
         self.core.LQEntries     = lq
         self.core.SQEntries     = sq
 
-        self.core.branchPred = TournamentBP()
+        # Keep a small stability cushion for Ruby + O3
+        self.core.forwardComSize = 20
+        self.core.backComSize    = 20
 
-        # Branch predictor (as in bootcamp sample)
         self.core.branchPred = TournamentBP()
 
 class MyOutOfOrderProcessor(BaseCPUProcessor):
@@ -60,14 +56,13 @@ class MyOutOfOrderProcessor(BaseCPUProcessor):
 ap = argparse.ArgumentParser()
 ap.add_argument("--cpu", choices=["timing", "o3"], required=True)
 ap.add_argument("--cores", type=int, default=1)
-# Problem 1 knobs (vary one-at-a-time)
+# vary one at a time
 ap.add_argument("--width", type=int, default=4,   help="issue width (O3)")
 ap.add_argument("--rob",   type=int, default=128, help="numROBEntries (O3)")
 ap.add_argument("--lq",    type=int, default=64,  help="LQEntries (O3)")
 ap.add_argument("--sq",    type=int, default=64,  help="SQEntries (O3)")
 args = ap.parse_args()
 
-# Ruby MESI two-level caches (bootcamp style)
 cache_hierarchy = MESITwoLevelCacheHierarchy(
     l1d_size="16kB", l1d_assoc=8,
     l1i_size="16kB", l1i_assoc=8,
