@@ -3,7 +3,7 @@
 ## Run the scripts
 - Go to each folder(`/p#`)
 ``` bash
-makefile all
+make all
 ```
 - For each part:
   - `p#.py`: gem5 scripts which generate the user-defined architecture
