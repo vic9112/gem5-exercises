@@ -1,6 +1,12 @@
 """
 Problem 5 — SE mode for x86 NPB IS (size S).
 Uses the same CPU model you choose for FS ROI (via --cpu timing|o3).
+Do not need to add an ROI handler in SE. The SE workload 
+(x86-npb-is-size-s-run) is already just the application; 
+gem5 will write one final stats block at program exit, 
+which is exactly the ROI. With the parser change above, 
+the final block is treated as ROI, so your SE run lines up 
+cleanly with the FS ROI block.
 """
 
 import argparse
@@ -26,7 +32,7 @@ cache_hierarchy = PrivateL1PrivateL2WalkCacheHierarchy(
     l1d_size="16kB", l1i_size="16kB", l2_size="256kB"
 )
 
-memory    = SingleChannelDDR4_2400(size="2GiB")
+memory = SingleChannelDDR4_2400(size="2GiB")
 processor = SimpleProcessor(cpu_type=cpu_type, isa=ISA.X86, num_cores=1)
 
 board = SimpleBoard(
