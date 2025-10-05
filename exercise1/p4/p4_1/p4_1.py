@@ -1,13 +1,6 @@
-#!/usr/bin/env python3
 """
 p4_1.py — FS X86: KVM fast-forward, switch to detailed CPU at 2nd m5 exit,
 stop at 3rd. Stats are dump+reset at the 2nd exit so final stats.txt is ROI-only.
-
-Usage examples:
-  # switch to TimingSimpleCPU
-  gem5-mesi --outdir=out_p4_1_timing p4_1/p4_1.py --detailed timing
-  # switch to X86O3CPU
-  gem5-mesi --outdir=out_p4_1_o3     p4_1/p4_1.py --detailed o3
 """
 
 import argparse
@@ -74,7 +67,7 @@ def exit_handler():
     m5stats.reset()
 
     print(f"--> Switching CPUs: KVM -> {args.detailed.upper()}")
-    processor.switch()     # <— SimpleSwitchableProcessor
+    processor.switch()  # <— SimpleSwitchableProcessor
     yield False
 
     print("--> 3rd exit event: After run script (ROI end)")

@@ -2,8 +2,6 @@
 p4_2.py — FS X86: KVM only, no CPU switch.
 We still dump+reset at the 2nd m5 exit so the final stats are ROI-only,
 and exit on the 3rd m5 exit.
-
-This script satisfies Problem 4 Method 2. (See exercise requirements.)
 """
 
 from gem5.utils.requires import requires

@@ -1,20 +1,6 @@
-#!/usr/bin/env python3
 """
 Problem 3 (part 3): Compare SimpleMemory vs DDR4 at SAME size/bandwidth,
 and allow varying request rate (bandwidth) and read percentage.
-
-Defaults (per assignment spirit): 512 MiB, RandomGenerator, read 80%, 32 GiB/s.
-
-Examples:
-  # DDR4 @ 32 GiB/s, 80% reads
-  gem5 --outdir=p3/out_cmp_ddr4 p3_3/p3_3.py --mem ddr4
-
-  # SimpleMemory @ 32 GiB/s, 80% reads (device bw matched to generator)
-  gem5 --outdir=p3/out_cmp_simple p3_3/p3_3.py --mem simple
-
-  # Sweep parameters by overriding -b and -r
-  gem5 --outdir=p3/out_ddr4_b16_r50 p3_3/p3_3.py --mem ddr4 -b 16GiB/s -r 50
-  gem5 --outdir=p3/out_simple_b16_r100 p3_3/p3_3.py --mem simple -b 16GiB/s -r 100
 """
 
 import argparse
