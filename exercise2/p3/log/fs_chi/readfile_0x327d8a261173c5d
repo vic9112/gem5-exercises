@@ -1,0 +1,10 @@
+
+echo "[rcS] Boot done → request CPU switch (KVM→TIMING)"
+M5=$(command -v m5 || echo /sbin/m5)
+$M5 exit
+
+echo "[rcS] Now in TIMING, reset stats and run workload"
+$M5 resetstats
+taskset -c 0-3 ./workload/matmul_mt --size 16 --threads 4
+$M5 dumpstats
+$M5 exit
