@@ -1,0 +1,3 @@
+config,l2_overall_misses,l2_miss_rate,l2_miss_latency_mean,l2_ruby_m_demand_misses,chi_ReadUnique_total,chi_CleanUnique_total,chi_ReadShared_total,simSeconds,hostSeconds
+classic_fs,73095.0,0.516076,59062.395061,nan,nan,nan,nan,0.00544,4.41
+chi_fs,nan,nan,nan,85985.0,32565.0,6557.0,127492.0,0.009959,32.51

@@ -3,6 +3,8 @@
 **/checkpoint/
 **/out_*/
 **/log/
+*.img
+*.gz
 
 # Jekyll stuff
 _site/

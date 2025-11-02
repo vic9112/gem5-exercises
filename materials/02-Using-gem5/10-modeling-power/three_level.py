@@ -156,8 +156,9 @@ class PrivateL1PrivateL2SharedL3CacheHierarchy(AbstractClassicCacheHierarchy):
 
     def add_power_model(self):
         """called after preinstantiate"""
-        pass
-        # YOUR CODE HERE
+
+        self.l3_cache.power_state.default_state = "ON"
+        self.l3_cache.power_model = L3PowerModel(self.l3_cache.path())
 
 
 class L3Cache(Cache):
@@ -175,6 +176,19 @@ class L3Cache(Cache):
 
 from m5.objects import PowerModel, MathExprPowerModel
 
+class L3PowerOn(MathExprPowerModel):
+    def __init__(self, l3_path, **kwargs):
+        super().__init__(**kwargs)
+        # Example to report l2 Cache overallAccesses
+        # The estimated power is converted to Watt and will vary based
+        # on the size of the cache
+        self.dyn = f"({l3_path}.overallAccesses * 0.000_018_000 + {l3_path}.overallMisses * 0.000_001_000)/simSeconds"
+        self.st = "(voltage * 3)/10"
+
+class L3PowerOff(MathExprPowerModel):
+    dyn = "0"
+    st = "0"
+
 class L3PowerModel(PowerModel):
     def __init__(self, l3_path, **kwargs):
         super().__init__(**kwargs)
@@ -185,13 +199,3 @@ class L3PowerModel(PowerModel):
             L3PowerOff(),  # SRAM_RETENTION
             L3PowerOff(),  # OFF
         ]
-
-class L3PowerOn(MathExprPowerModel):
-    def __init__(self, l3_path, **kwargs):
-        super().__init__(**kwargs)
-        # YOUR CODE HERE
-
-class L3PowerOff(MathExprPowerModel):
-    dyn = "0"
-    st = "0"
-
