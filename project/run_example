@@ -1,0 +1,7 @@
+make auto_sweep \
+  CORES="4" CAPS="2" CHANNELS="2" \
+  L1_SIZES="16" L1_ASSOCS="8" \
+  L2_SIZES="2"  L2_ASSOCS="16" \
+  WIDTHS="10" \
+  ROB_SIZES="128" \
+  INT_REGS="128" FP_REGS="128" SQ_LQS="128"
