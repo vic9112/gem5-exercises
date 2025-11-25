@@ -1,5 +1,26 @@
 
 # Gem5 project
+
+- 'makefile': makefile runner, which will run all corner. For single run, please see 'run_example.sh'
+- scripts/: All Python configuration scripts used in your design, including custom hierarchy, topology, and runner scripts('hardware/fs_resnet.py')
+- results/: Simulation logs and output files such as stats.txt for both baseline and optimized configurations, showing simSeconds measured strictly within the ROI.
+- 'run_example.sh': example makefile configuration
+- report.pdf
+
+# Suggest Configuration
+
+| # | Cores | L1 size(KB) | L1 assoc | L2 size(MB) | L2 assoc | ring dir. | ROB, int/fp_reg, LQ/SQ |
+| - | ----- | ----------- | -------- | ----------- | -------- | --------- | ---------------------- |
+| 1 | 4     | 512         | 8        | 2           | 16       | bidir.    | 256                    |
+| 2 | 4     | 512         | 16       | 4           | 16       | bidir.    | 256                    |
+| 3 | 4     | 1024        | 8        | 2           | 16       | bidir.    | 256                    |
+| 4 | 4     | 512         | 8        | 4           | 16       | bidir.    | 256                    |
+
+or simply just:
+```
+gem5 --outdir=./log hardware/fs_resnet.py
+```
+
 This document describes how to build and run workloads in gem5 using **FS (full-system)** mode. It also includes instructions for preparing disk images, inserting workloads, and collecting simulation statistics.
 
 ## Build Workloads
