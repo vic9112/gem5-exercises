@@ -1,10 +1,10 @@
 
 # Gem5 project
 
-- 'makefile': makefile runner, which will run all corner. For single run, please see 'run_example.sh'
-- scripts/: All Python configuration scripts used in your design, including custom hierarchy, topology, and runner scripts('hardware/fs_resnet.py')
+- `makefile`: makefile runner, which will run all corners. For a single run, please see `run_example.sh`
+- scripts/: All Python configuration scripts used in your design, including custom hierarchy, topology, and runner scripts(`hardware/fs_resnet.py`)
 - results/: Simulation logs and output files such as stats.txt for both baseline and optimized configurations, showing simSeconds measured strictly within the ROI.
-- 'run_example.sh': example makefile configuration
+- `run_example.sh`: example makefile configuration
 - report.pdf
 
 # Suggest Configuration
